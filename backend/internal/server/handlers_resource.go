@@ -69,8 +69,8 @@ func ListResourcesByTypeHandler(repo repository.ResourceDAO) gin.HandlerFunc {
 }
 
 // ListResourcesHandler godoc
-// @Summary      List all resources
-// @Description  Returns all resources without pagination
+// @Summary      List project resources
+// @Description  Returns all resources of type research_project and eqp (unpaginated, sorted by name)
 // @Tags         resources
 // @Produce      json
 // @Success      200  {array}   types.Resource
