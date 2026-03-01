@@ -1,0 +1,5 @@
+.env
+.mcp.json
+backend/docs/
+node_modules/
+frontend/dist/

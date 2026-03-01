@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: unic-postgres
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_USER: vincent
+      POSTGRES_PASSWORD: vincent
+      POSTGRES_DB: unic_db
+    volumes:
+      - ./:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vincent -d unic_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - initdb-net
+
+  opensearch:
+    image: opensearchproject/opensearch:2.18.0
+    container_name: unic-opensearch
+    ports:
+      - "9200:9200"
+    environment:
+      discovery.type: single-node
+      DISABLE_SECURITY_PLUGIN: "true"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - initdb-net
+
+  etl-seed:
+    build:
+      context: ./etl
+      dockerfile: Dockerfile
+    container_name: unic-etl-seed
+    environment:
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGUSER: vincent
+      PGPASSWORD: vincent
+      PGDATABASE: unic_db
+      OPENSEARCH_HOST: opensearch
+      OPENSEARCH_PORT: "9200"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy
+    networks:
+      - initdb-net
+
+volumes:
+  opensearch-data:
+
+networks:
+  initdb-net:
+    name: initdb-net

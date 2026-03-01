@@ -1,0 +1,124 @@
+{
+  "navbar": {
+    "projects": "Projets",
+    "catalog": "Catalogue de données"
+  },
+  "resources": {
+    "title": "Répertoire des projets",
+    "description": "Liste des projets de recherche et d'évaluation de la qualité & performance",
+    "columns": {
+      "name": "Nom",
+      "type": "Type",
+      "status": "Statut",
+      "last_update": "Mis à jour le",
+      "principal_investigator": "Chercheur(e) principal(e)",
+      "erb_id": "No. CÉR",
+      "creation_date": "Date de création",
+      "table_count": "Tables",
+      "variable_count": "Variables",
+      "description": "Description",
+      "dictionary": "Dictionnaire"
+    },
+    "types": {
+      "research_project": "Recherche",
+      "eqp": "EQP",
+      "warehouse": "Entrepôt",
+      "source_system": "Système source"
+    },
+    "statuses": {
+      "completed": "Complété",
+      "active": "Actif",
+      "in_review": "En révision",
+      "in_progress": "En cours"
+    }
+  },
+  "pagination": {
+    "results": "Résultats {{from}} - {{to}} de {{total}}",
+    "first": "Première",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "per_page": "/ page"
+  },
+  "table": {
+    "pin_left": "Fixer à gauche",
+    "pin_right": "Fixer à droite",
+    "unpin": "Détacher",
+    "no_result": "Aucun résultat trouvé",
+    "no_result_description": "Essayez de modifier votre recherche ou vos filtres."
+  },
+  "catalog": {
+    "title": "Catalogue de données",
+    "description": "Explorez les dictionnaires de données de l'UnIC par type de ressource.",
+    "explore": "Explorer",
+    "tabs": {
+      "resources": "Ressources",
+      "systems": "Systèmes",
+      "projects": "Projets",
+      "tables": "Tables",
+      "variables": "Variables"
+    },
+    "exploration": {
+      "search_systems": "Nom, Description",
+      "search_tables": "Nom, Système, Domaine",
+      "search_variables": "Nom, Libellé",
+      "filters": {
+        "filtered_by": "Filtré par :",
+        "clear": "Effacer"
+      },
+      "columns": {
+        "name": "Nom",
+        "description": "Description",
+        "table_count": "Tables",
+        "variable_count": "Variables",
+        "resource": "Système",
+        "resource_warehouse": "Entrepôt",
+        "project": "Projet",
+        "table": "Table",
+        "domain": "Domaine",
+        "label": "Libellé",
+        "type": "Type",
+        "source_systems": "Dérivée de"
+      }
+    },
+    "stats": {
+      "projects": "{{count}} projets",
+      "tables": "{{count}} tables",
+      "variables": "{{count}} variables",
+      "systems": "{{count}} systèmes",
+      "domains": "{{count}} domaines"
+    },
+    "categories": {
+      "source_system": {
+        "title": "Systèmes hospitaliers",
+        "description": "Le catalogue de l'UnIC recense et documente les données disponibles des systèmes d'information hospitaliers. Ces systèmes comportent des données médicales, administratives et logistiques.",
+        "short_description": "Liste détaillée des tables et variables des systèmes hospitaliers disponibles dans l'UnIC."
+      },
+      "warehouse": {
+        "title": "Entrepôt",
+        "description": "L'entrepôt de l'UnIC est constitué d'un ensemble sélectionné de variables provenant des systèmes hospitaliers. Ces variables sont organisées par domaine et documentées selon une nomenclature standard.",
+        "short_description": "Liste des tables et variables de l'entrepôt de données de l'UnIC."
+      },
+      "research_project": {
+        "title": "Projets de recherche",
+        "description": "Les dictionnaires de données détaillant les caractéristiques des variables des jeux de données sont produits par l'UnIC pour des projets de recherche menés au CHUSJ.",
+        "short_description": "Liste détaillée des variables et des tables des jeux de données produits par l'UnIC pour la recherche au CHUSJ."
+      },
+      "eqp": {
+        "title": "Projets EQP",
+        "description": "Les dictionnaires de données détaillant les caractéristiques des variables des jeux de données sont produits par l'UnIC pour des projets d'évaluation de la qualité et de la performance.",
+        "short_description": "Liste détaillée des variables et des tables des jeux de données produits par l'UnIC pour des projets d'évaluation de la qualité et de la performance."
+      }
+    }
+  },
+  "landing": {
+    "title": "Portail de données de l'Univers Informationnel du CHU Sainte-Justine.",
+    "description": "Explorez le catalogue de données, gérez vos projets et accédez à vos jeux de données.",
+    "login": "Connexion",
+    "register": "Créer un compte"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur : {{message}}",
+    "search_placeholder": "Nom, Chercheur(e), Description"
+  }
+}

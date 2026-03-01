@@ -1,0 +1,124 @@
+{
+  "navbar": {
+    "projects": "Projects",
+    "catalog": "Data Catalog"
+  },
+  "resources": {
+    "title": "Project Directory",
+    "description": "List of research and quality & performance evaluation projects",
+    "columns": {
+      "name": "Name",
+      "type": "Type",
+      "status": "Status",
+      "last_update": "Last Update",
+      "principal_investigator": "Principal Investigator",
+      "erb_id": "ERB ID",
+      "creation_date": "Creation Date",
+      "table_count": "Tables",
+      "variable_count": "Variables",
+      "description": "Description",
+      "dictionary": "Dictionary"
+    },
+    "types": {
+      "research_project": "Research",
+      "eqp": "EQP",
+      "warehouse": "Warehouse",
+      "source_system": "Source System"
+    },
+    "statuses": {
+      "completed": "Completed",
+      "active": "Active",
+      "in_review": "In Review",
+      "in_progress": "In Progress"
+    }
+  },
+  "pagination": {
+    "results": "Results {{from}} - {{to}} of {{total}}",
+    "first": "First",
+    "previous": "Previous",
+    "next": "Next",
+    "per_page": "/ page"
+  },
+  "table": {
+    "pin_left": "Pin Left",
+    "pin_right": "Pin Right",
+    "unpin": "Unpin",
+    "no_result": "No results found",
+    "no_result_description": "Try adjusting your search or filters."
+  },
+  "catalog": {
+    "title": "Data Catalog",
+    "description": "Explore UnIC data dictionaries by resource type.",
+    "explore": "Explore",
+    "tabs": {
+      "resources": "Resources",
+      "systems": "Systems",
+      "projects": "Projects",
+      "tables": "Tables",
+      "variables": "Variables"
+    },
+    "exploration": {
+      "search_systems": "Name, Description",
+      "search_tables": "Name, System, Domain",
+      "search_variables": "Name, Label",
+      "filters": {
+        "filtered_by": "Filtered by:",
+        "clear": "Clear"
+      },
+      "columns": {
+        "name": "Name",
+        "description": "Description",
+        "table_count": "Tables",
+        "variable_count": "Variables",
+        "resource": "System",
+        "resource_warehouse": "Warehouse",
+        "project": "Project",
+        "table": "Table",
+        "domain": "Domain",
+        "label": "Label",
+        "type": "Type",
+        "source_systems": "Derived From"
+      }
+    },
+    "stats": {
+      "projects": "{{count}} projects",
+      "tables": "{{count}} tables",
+      "variables": "{{count}} variables",
+      "systems": "{{count}} systems",
+      "domains": "{{count}} domains"
+    },
+    "categories": {
+      "source_system": {
+        "title": "Hospital Systems",
+        "description": "The UnIC catalog collects and documents available data from hospital information systems. These systems include medical, administrative, and logistical data.",
+        "short_description": "List of tables and variables from hospital systems available in UnIC."
+      },
+      "warehouse": {
+        "title": "Warehouse",
+        "description": "The UnIC warehouse consists of a curated set of variables from hospital systems. These variables are organized by domain and documented according to a standard nomenclature.",
+        "short_description": "List of tables and variables from the UnIC data warehouse."
+      },
+      "research_project": {
+        "title": "Research Projects",
+        "description": "The data dictionaries detailing the characteristics of the dataset variables are produced by UnIC for research projects conducted at the CHUSJ.",
+        "short_description": "Detailed list of variables and tables from datasets produced by UnIC for research at CHUSJ."
+      },
+      "eqp": {
+        "title": "EQP Projects",
+        "description": "The data dictionaries detailing the characteristics of the dataset variables are produced by UnIC for quality improvement projects.",
+        "short_description": "Detailed list of variables and tables from datasets produced by UnIC for quality and performance evaluation projects."
+      }
+    }
+  },
+  "landing": {
+    "title": "Data portal of the CHU Sainte-Justine Informational Universe.",
+    "description": "Explore the data catalog, manage your projects, and access your datasets.",
+    "login": "Log in",
+    "register": "Create an account"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error: {{message}}",
+    "search_placeholder": "Name, Investigator, Description"
+  }
+}
