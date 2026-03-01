@@ -81,7 +81,7 @@ export default function Resources() {
   });
   const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({
     left: [],
-    right: [],
+    right: ["dictionary"],
   });
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
 
@@ -197,7 +197,11 @@ export default function Resources() {
         size: 80,
         enableSorting: false,
         enableResizing: false,
-        header: () => t("resources.columns.dictionary"),
+        header: ({ column }) => (
+          <SortableHeader column={column}>
+            {t("resources.columns.dictionary")}
+          </SortableHeader>
+        ),
         cell: ({ row }) => {
           const route = RESOURCE_TYPE_ROUTE[row.original.rs_type];
           if (!route) return null;
