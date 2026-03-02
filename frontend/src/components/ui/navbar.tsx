@@ -1,9 +1,17 @@
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { FolderOpen, BookOpen } from "lucide-react";
+import { FolderOpen, BookOpen, ChevronDown, UserRound, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LangSwitcher } from "@/components/ui/lang-switcher";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 interface NavItem {
   label: string;
@@ -11,9 +19,16 @@ interface NavItem {
   icon: React.ReactNode;
 }
 
+const FAKE_USER = {
+  name: "John Smith",
+  initials: "JS",
+  email: "John.Smith.hsj@ssss.gouv.qc.ca",
+};
+
 export function Navbar() {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems: NavItem[] = [
     { label: t("navbar.projects"), to: "/projects", icon: <FolderOpen className="size-4" /> },
@@ -22,7 +37,7 @@ export function Navbar() {
 
   return (
     <nav className="flex items-center h-navbar px-6 border-b bg-background shadow-xs w-full">
-      <Link to="/" className="mr-6 flex items-center">
+      <Link to="/home" className="mr-6 flex items-center">
         <img
           src="/unic-logo-header.svg"
           alt="UNIC"
@@ -45,6 +60,29 @@ export function Navbar() {
         ))}
       </div>
       <div className="flex items-center gap-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center gap-2 rounded-md px-2 py-1 text-sm hover:bg-accent transition-colors outline-none cursor-pointer">
+            <span className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+              {FAKE_USER.initials}
+            </span>
+            <span className="font-medium">{FAKE_USER.name}</span>
+            <ChevronDown className="size-3.5 text-muted-foreground" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-64">
+            <DropdownMenuLabel className="font-normal text-muted-foreground">
+              {t("user_menu.connected_as", { email: FAKE_USER.email })}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <UserRound />
+              {t("user_menu.profile_settings")}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/")}>
+              <LogOut />
+              {t("user_menu.logout")}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <LangSwitcher />
         <ThemeToggle />
       </div>

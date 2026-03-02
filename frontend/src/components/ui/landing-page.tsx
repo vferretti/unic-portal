@@ -44,7 +44,7 @@ export function LandingPage() {
           <div className="flex w-full justify-center gap-4 xl:justify-start">
             <Button
               size="lg"
-              onClick={() => navigate("/projects")}
+              onClick={() => navigate("/home")}
             >
               {t("landing.login")}
             </Button>

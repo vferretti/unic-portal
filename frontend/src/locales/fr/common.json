@@ -116,6 +116,11 @@
     "login": "Connexion",
     "register": "Créer un compte"
   },
+  "user_menu": {
+    "connected_as": "Connecté en tant que {{email}}",
+    "profile_settings": "Paramètres de profil",
+    "logout": "Se déconnecter"
+  },
   "common": {
     "loading": "Chargement...",
     "error": "Erreur : {{message}}",
