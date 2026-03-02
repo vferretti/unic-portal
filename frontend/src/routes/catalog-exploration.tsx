@@ -505,8 +505,8 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
   }, []);
 
-  const columns = useMemo<ColumnDef<DictTable>[]>(
-    () => [
+  const columns = useMemo(() => {
+    const cols: ColumnDef<DictTable>[] = [
       {
         accessorKey: "tab_name",
         size: 200,
@@ -533,7 +533,9 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
           </span>
         ),
       },
-      category !== "warehouse" && ({
+    ];
+    if (category !== "warehouse") {
+      cols.push({
         accessorFn: (row) => row.resource?.rs_name ?? null,
         id: "rs_name",
         size: 150,
@@ -557,7 +559,9 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
           if (!val) return <TextCell>{undefined}</TextCell>;
           return <HighlightText text={val} highlight={debouncedSearch} />;
         },
-      } as ColumnDef<DictTable>),
+      });
+    }
+    cols.push(
       {
         accessorKey: "tab_domain",
         size: 150,
@@ -615,9 +619,9 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
           );
         },
       },
-    ].filter(Boolean) as ColumnDef<DictTable>[],
-    [t, category, onTableDrillDown, debouncedSearch],
-  );
+    );
+    return cols;
+  }, [t, category, onTableDrillDown, debouncedSearch]);
 
   const table = useReactTable({
     data,
@@ -776,8 +780,8 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
   }, []);
 
-  const columns = useMemo<ColumnDef<DictVariable>[]>(
-    () => [
+  const columns = useMemo(() => {
+    const cols: ColumnDef<DictVariable>[] = [
       {
         accessorKey: "var_name",
         size: 200,
@@ -837,7 +841,9 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         ),
         cell: ({ getValue }) => <TextCell>{getValue<string | null>()}</TextCell>,
       },
-      category !== "warehouse" && ({
+    ];
+    if (category !== "warehouse") {
+      cols.push({
         accessorFn: (row) => row.resource?.rs_name ?? null,
         id: "rs_name",
         size: 150,
@@ -857,36 +863,38 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
           </SortableHeader>
         ),
         cell: ({ getValue }) => <TextCell>{getValue<string | null>()}</TextCell>,
-      } as ColumnDef<DictVariable>),
-      {
-        accessorKey: "var_value_type",
-        id: "var_value_type",
-        size: 120,
-        header: ({ column }) => (
-          <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
-            onSort={column.getToggleSortingHandler()}
-            column={column}
-          >
-            {t("catalog.exploration.columns.type")}
-          </SortableHeader>
-        ),
-        cell: ({ getValue }) => {
-          const type = getValue<string | null>();
-          return (
-            <BadgeCell variant={type ? VARIABLE_TYPE_BADGE[type] ?? "secondary" : undefined}>
-              {type}
-            </BadgeCell>
-          );
-        },
+      });
+    }
+    cols.push({
+      accessorKey: "var_value_type",
+      id: "var_value_type",
+      size: 120,
+      header: ({ column }) => (
+        <SortableHeader
+          sortDirection={
+            column.getIsSorted() === "asc"
+              ? "asc"
+              : column.getIsSorted() === "desc"
+                ? "desc"
+                : null
+          }
+          onSort={column.getToggleSortingHandler()}
+          column={column}
+        >
+          {t("catalog.exploration.columns.type")}
+        </SortableHeader>
+      ),
+      cell: ({ getValue }) => {
+        const type = getValue<string | null>();
+        return (
+          <BadgeCell variant={type ? VARIABLE_TYPE_BADGE[type] ?? "secondary" : undefined}>
+            {type}
+          </BadgeCell>
+        );
       },
-      category !== "source_system" && ({
+    });
+    if (category !== "source_system") {
+      cols.push({
         accessorFn: (row) => row.var_from_source_systems,
         id: "source_systems",
         size: 200,
@@ -897,7 +905,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
           if (!systems || systems.length === 0) return <TextCell>{undefined}</TextCell>;
           return (
             <span>
-              {systems.map((s, i) => (
+              {systems.map((s: { rs_name: string }, i: number) => (
                 <span key={s.rs_name}>
                   {i > 0 && ", "}
                   <Link
@@ -911,10 +919,10 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
             </span>
           );
         },
-      } as ColumnDef<DictVariable>),
-    ].filter(Boolean) as ColumnDef<DictVariable>[],
-    [t, i18n.language, category, debouncedSearch],
-  );
+      });
+    }
+    return cols;
+  }, [t, i18n.language, category, debouncedSearch]);
 
   const table = useReactTable({
     data,

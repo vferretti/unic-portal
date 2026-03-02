@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
+import { FolderOpen, BookOpen, ArrowRight } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -7,6 +8,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/ui/page-header";
 import { useCatalogStats } from "@/hooks/useCatalogStats";
 
 const TOOLS = [
@@ -35,72 +37,111 @@ export default function Home() {
     (stats.eqp?.variable_count ?? 0);
 
   return (
-    <div className="p-8 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold">{t("home.greeting")}</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Explore card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">{t("home.explore_title")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="list-disc list-inside space-y-2 text-sm">
-              <li>
-                <Link to="/projects" className="text-primary underline hover:no-underline">
-                  {t("home.explore_projects")}
+    <>
+      <PageHeader
+        title={t("home.greeting")}
+        description={t("home.welcome_subtitle")}
+      />
+      <div className="p-8">
+        <div className="max-w-4xl mx-auto flex flex-col gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Explore card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">{t("home.explore_title")}</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-2">
+                <Link
+                  to="/projects"
+                  className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-accent"
+                >
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <FolderOpen className="size-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium">{t("home.explore_projects")}</div>
+                    <div className="text-sm text-muted-foreground">{t("home.explore_projects_description")}</div>
+                  </div>
+                  <ArrowRight className="size-5 shrink-0 text-muted-foreground" />
                 </Link>
-              </li>
-              <li>
-                <Link to="/catalog" className="text-primary underline hover:no-underline">
-                  {t("home.explore_catalog")}
+                <Link
+                  to="/catalog"
+                  className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-accent"
+                >
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <BookOpen className="size-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium">{t("home.explore_catalog")}</div>
+                    <div className="text-sm text-muted-foreground">{t("home.explore_catalog_description")}</div>
+                  </div>
+                  <ArrowRight className="size-5 shrink-0 text-muted-foreground" />
                 </Link>
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
 
-        {/* Stats card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">{t("home.stats_title")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-1 text-sm">
-              <li>{t("home.stats_research_projects", { count: researchCount })}</li>
-              <li>{t("home.stats_eqp_projects", { count: eqpCount })}</li>
-              <li>{t("home.stats_systems", { count: systemCount })}</li>
-              <li>{t("home.stats_tables", { count: tableCount })}</li>
-              <li>{t("home.stats_variables", { count: variableCount })}</li>
-            </ul>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Zone Verte */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">{t("home.green_zone_title")}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-6">
-          <p className="text-sm text-muted-foreground">
-            {t("home.green_zone_description")}
-          </p>
-          <div className="flex items-center gap-6">
-            {TOOLS.map((tool) => (
-              <img
-                key={tool.alt}
-                src={tool.src}
-                alt={tool.alt}
-                className="h-12 object-contain"
-              />
-            ))}
-            <Button className="bg-hero text-hero-foreground hover:bg-hero/90 ml-auto">
-              {t("home.green_zone_connect")}
-            </Button>
+            {/* Stats card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">{t("home.stats_title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-3xl font-bold">{researchCount.toLocaleString()}</div>
+                    <div className="text-sm text-muted-foreground">{t("home.stats_label_research_projects")}</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold">{eqpCount.toLocaleString()}</div>
+                    <div className="text-sm text-muted-foreground">{t("home.stats_label_eqp_projects")}</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold">{systemCount.toLocaleString()}</div>
+                    <div className="text-sm text-muted-foreground">{t("home.stats_label_systems")}</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold">{tableCount.toLocaleString()}</div>
+                    <div className="text-sm text-muted-foreground">{t("home.stats_label_tables")}</div>
+                  </div>
+                  <div className="col-span-2">
+                    <div className="text-3xl font-bold">{variableCount.toLocaleString()}</div>
+                    <div className="text-sm text-muted-foreground">{t("home.stats_label_variables")}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+
+          {/* Zone Verte */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">{t("home.green_zone_title")}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-6">
+              <p className="text-sm text-muted-foreground">
+                {t("home.green_zone_description")}
+              </p>
+              <div className="flex items-center gap-6">
+                {TOOLS.map((tool) => (
+                  <div
+                    key={tool.alt}
+                    className="flex size-14 items-center justify-center rounded-lg bg-muted p-2"
+                  >
+                    <img
+                      src={tool.src}
+                      alt={tool.alt}
+                      className="h-10 object-contain"
+                    />
+                  </div>
+                ))}
+                <Button className="bg-hero text-hero-foreground hover:bg-hero/90 ml-auto">
+                  {t("home.green_zone_connect")}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </>
   );
 }
