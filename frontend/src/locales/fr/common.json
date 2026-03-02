@@ -122,6 +122,21 @@
     "profile_settings": "Paramètres de profil",
     "logout": "Se déconnecter"
   },
+  "home": {
+    "greeting": "Bonjour, John",
+    "explore_title": "Explorer le lac de données de l'UnIC",
+    "explore_projects": "Répertoire de projets",
+    "explore_catalog": "Catalogue de données",
+    "stats_title": "L'UnIC en chiffres",
+    "stats_research_projects": "{{count}} projets de recherche",
+    "stats_eqp_projects": "{{count}} projets d'évaluation de la qualité et performance",
+    "stats_systems": "{{count}} systèmes hospitaliers",
+    "stats_tables": "{{count}} tables de variables",
+    "stats_variables": "{{count}} variables",
+    "green_zone_title": "Zone Verte",
+    "green_zone_description": "Connectez vous à votre espace de travail pour télécharger vos jeux de données ou les analyser avec notre suite d'outils en ligne.",
+    "green_zone_connect": "Connexion"
+  },
   "common": {
     "loading": "Chargement...",
     "error": "Erreur : {{message}}",

@@ -122,6 +122,21 @@
     "profile_settings": "Profile Settings",
     "logout": "Log out"
   },
+  "home": {
+    "greeting": "Hello, John",
+    "explore_title": "Explore the UnIC data lake",
+    "explore_projects": "Project Directory",
+    "explore_catalog": "Data Catalog",
+    "stats_title": "UnIC in numbers",
+    "stats_research_projects": "{{count}} research projects",
+    "stats_eqp_projects": "{{count}} quality & performance evaluation projects",
+    "stats_systems": "{{count}} hospital systems",
+    "stats_tables": "{{count}} variable tables",
+    "stats_variables": "{{count}} variables",
+    "green_zone_title": "Green Zone",
+    "green_zone_description": "Connect to your workspace to download your datasets or analyze them with our online tool suite.",
+    "green_zone_connect": "Connect"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error: {{message}}",
