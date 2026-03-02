@@ -38,14 +38,13 @@ const STAT_FIELDS: Record<string, "resource_count" | "table_count" | "variable_c
 };
 
 const CATEGORY_COLORS: Record<CategoryType, {
-  title: string;
-  badge: "cyan" | "violet" | "blue" | "orange";
+  badge: "secondary";
   button: string;
 }> = {
-  source_system:    { title: "text-cyan-foreground",   badge: "cyan",   button: "bg-cyan-foreground text-white hover:bg-cyan-foreground/90" },
-  warehouse:        { title: "text-violet-foreground", badge: "violet", button: "bg-violet-foreground text-white hover:bg-violet-foreground/90" },
-  research_project: { title: "text-blue-foreground",   badge: "blue",   button: "bg-blue-foreground text-white hover:bg-blue-foreground/90" },
-  eqp:              { title: "text-orange-foreground", badge: "orange", button: "bg-orange-foreground text-white hover:bg-orange-foreground/90" },
+  source_system:    { badge: "secondary", button: "bg-hero text-hero-foreground hover:bg-hero/90" },
+  warehouse:        { badge: "secondary", button: "bg-hero text-hero-foreground hover:bg-hero/90" },
+  research_project: { badge: "secondary", button: "bg-hero text-hero-foreground hover:bg-hero/90" },
+  eqp:              { badge: "secondary", button: "bg-hero text-hero-foreground hover:bg-hero/90" },
 };
 
 const CATEGORY_ROUTES: Record<CategoryType, string> = {
@@ -80,7 +79,7 @@ export default function Catalog() {
               return (
                 <Card key={type}>
                   <CardHeader>
-                    <CardTitle className={`text-lg ${colors.title}`}>
+                    <CardTitle className="text-lg">
                       {t(`catalog.categories.${type}.title`)}
                     </CardTitle>
                   </CardHeader>

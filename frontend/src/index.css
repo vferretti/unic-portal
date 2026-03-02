@@ -93,6 +93,7 @@
 
   /* Hero / landing (semantic surface) */
   --color-hero: var(--hero);
+  --color-hero-foreground: var(--hero-foreground);
   --color-hero-overlay: var(--hero-overlay);
   --color-highlight: var(--highlight);
   --color-highlight-foreground: var(--highlight-foreground);
@@ -183,6 +184,7 @@
 
   /* Hero / landing background (brand: CHU Sainte-Justine) */
   --hero: #1c3863;
+  --hero-foreground: var(--color-white);
   --hero-overlay: rgba(255, 255, 255, 0.23);
 
   /* Focus ring (used by form controls and buttons) */
