@@ -43,7 +43,7 @@ export default function Home() {
         description={t("home.welcome_subtitle")}
       />
       <div className="p-8">
-        <div className="max-w-4xl mx-auto flex flex-col gap-6">
+        <div className="flex flex-col gap-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Explore card */}
             <Card>
