@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useSearchParams, Navigate, Link } from "react-router";
 import { useTranslation } from "react-i18next";
+import { BookOpen } from "lucide-react";
 import {
   type ColumnDef,
   type SortingState,
@@ -116,7 +117,7 @@ export default function CatalogExploration() {
       <PageHeader
         title={
           <>
-            <Link to="/catalog" className="text-muted-foreground hover:text-foreground transition-colors">{t("catalog.title")}</Link>
+            <Link to="/catalog" className="text-muted-foreground hover:text-foreground transition-colors"><BookOpen className="size-[1.5rem]" /></Link>
             <span className="text-muted-foreground mx-2 font-normal">/</span>
             {selectedSystem ? (
               <>
