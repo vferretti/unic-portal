@@ -4,7 +4,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 RUN go install github.com/swaggo/swag/cmd/swag@v1.16.4
 COPY . .
-RUN swag init -g cmd/api/main.go
+RUN swag init -g cmd/api/main.go --parseDependency --parseInternal
 RUN CGO_ENABLED=0 GOOS=linux go build -o bin/main ./cmd/api/
 
 FROM alpine:latest AS certs

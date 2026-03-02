@@ -533,7 +533,7 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
           </span>
         ),
       },
-      category !== "warehouse" && {
+      category !== "warehouse" && ({
         accessorFn: (row) => row.resource?.rs_name ?? null,
         id: "rs_name",
         size: 150,
@@ -557,7 +557,7 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
           if (!val) return <TextCell>{undefined}</TextCell>;
           return <HighlightText text={val} highlight={debouncedSearch} />;
         },
-      },
+      } as ColumnDef<DictTable>),
       {
         accessorKey: "tab_domain",
         size: 150,
@@ -837,7 +837,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         ),
         cell: ({ getValue }) => <TextCell>{getValue<string | null>()}</TextCell>,
       },
-      category !== "warehouse" && {
+      category !== "warehouse" && ({
         accessorFn: (row) => row.resource?.rs_name ?? null,
         id: "rs_name",
         size: 150,
@@ -857,7 +857,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
           </SortableHeader>
         ),
         cell: ({ getValue }) => <TextCell>{getValue<string | null>()}</TextCell>,
-      },
+      } as ColumnDef<DictVariable>),
       {
         accessorKey: "var_value_type",
         id: "var_value_type",
@@ -886,7 +886,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
           );
         },
       },
-      category !== "source_system" && {
+      category !== "source_system" && ({
         accessorFn: (row) => row.var_from_source_systems,
         id: "source_systems",
         size: 200,
@@ -911,7 +911,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
             </span>
           );
         },
-      },
+      } as ColumnDef<DictVariable>),
     ].filter(Boolean) as ColumnDef<DictVariable>[],
     [t, i18n.language, category, debouncedSearch],
   );

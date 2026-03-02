@@ -186,6 +186,7 @@ curl 'localhost:9200/variable_centric/_count?pretty'
 | API (Go) | 8080 | **8081** | http://localhost:8081 |
 | PostgreSQL | 5432 | **5436** | `psql -h localhost -p 5436 -U vincent -d unic_db` |
 | OpenSearch | 9200 | **9200** | http://localhost:9200 |
+| Swagger UI | — | **8081** | http://localhost:8081/swagger/index.html |
 
 > Host ports are offset to avoid conflicts with locally running services (e.g., a local PostgreSQL on 5435).
 
@@ -306,6 +307,12 @@ npm run dev
 ```
 
 The frontend starts on http://localhost:5173 with hot-reload enabled.
+
+**Type-checking**: Vite's dev server does not run TypeScript type checks. To catch type errors locally before committing:
+
+```bash
+npm run typecheck
+```
 
 ### Storybook
 
