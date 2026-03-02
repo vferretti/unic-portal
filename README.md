@@ -278,6 +278,12 @@ For active development, you may prefer running the data layer in Docker and the 
 
 ```bash
 cd backend
+
+# Generate Swagger docs (required on first clone)
+/usr/local/go/bin/go install github.com/swaggo/swag/cmd/swag@latest
+PATH="/usr/local/go/bin:$PATH" ~/go/bin/swag init -g cmd/api/main.go -o docs/ --parseDependency --parseInternal
+
+# Start the API
 PGPASSWORD=vincent PGPORT=5436 /usr/local/go/bin/go run ./cmd/api/
 ```
 
