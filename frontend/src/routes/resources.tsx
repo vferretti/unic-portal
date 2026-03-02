@@ -209,7 +209,7 @@ export default function Resources() {
             <Link
               to={`/catalog/${route}?resource=${encodeURIComponent(row.original.rs_name)}&tab=tables`}
               className="inline-flex items-center justify-center text-primary hover:text-primary/80 transition-colors"
-              title={t("resources.columns.dictionary")}
+              title={t("resources.columns.dictionary_tooltip")}
             >
               <BookOpen className="size-4" />
             </Link>

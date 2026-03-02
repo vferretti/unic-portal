@@ -5,7 +5,7 @@
   },
   "resources": {
     "title": "Répertoire des projets",
-    "description": "Liste des projets de recherche et d'évaluation de la qualité & performance",
+    "description": "Liste des projets de recherche et d'évaluation de la qualité & performance qui utilise la plateforme UnIC",
     "columns": {
       "name": "Nom",
       "type": "Type",
@@ -17,7 +17,8 @@
       "table_count": "Tables",
       "variable_count": "Variables",
       "description": "Description",
-      "dictionary": "Dict."
+      "dictionary": "Dict.",
+      "dictionary_tooltip": "Dictionnaire"
     },
     "types": {
       "research_project": "Recherche",

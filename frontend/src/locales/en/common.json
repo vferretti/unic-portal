@@ -5,7 +5,7 @@
   },
   "resources": {
     "title": "Project Directory",
-    "description": "List of research and quality & performance evaluation projects",
+    "description": "List of research and quality & performance evaluation projects that use the UnIC platform",
     "columns": {
       "name": "Name",
       "type": "Type",
@@ -17,7 +17,8 @@
       "table_count": "Tables",
       "variable_count": "Variables",
       "description": "Description",
-      "dictionary": "Dict."
+      "dictionary": "Dict.",
+      "dictionary_tooltip": "Dictionary"
     },
     "types": {
       "research_project": "Research",
