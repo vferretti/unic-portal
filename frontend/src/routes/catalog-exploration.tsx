@@ -507,31 +507,6 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
 
   const columns = useMemo<ColumnDef<DictTable>[]>(
     () => [
-      category !== "warehouse" && {
-        accessorFn: (row) => row.resource?.rs_name ?? null,
-        id: "rs_name",
-        size: 150,
-        header: ({ column }) => (
-          <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
-            onSort={column.getToggleSortingHandler()}
-            column={column}
-          >
-            {t(`catalog.exploration.columns.${CATEGORY_TABS[category].resourceColumnKey}`)}
-          </SortableHeader>
-        ),
-        cell: ({ getValue }) => {
-          const val = getValue<string | null>();
-          if (!val) return <TextCell>{undefined}</TextCell>;
-          return <HighlightText text={val} highlight={debouncedSearch} />;
-        },
-      },
       {
         accessorKey: "tab_name",
         size: 200,
@@ -557,6 +532,31 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
             </TextCell>
           </span>
         ),
+      },
+      category !== "warehouse" && {
+        accessorFn: (row) => row.resource?.rs_name ?? null,
+        id: "rs_name",
+        size: 150,
+        header: ({ column }) => (
+          <SortableHeader
+            sortDirection={
+              column.getIsSorted() === "asc"
+                ? "asc"
+                : column.getIsSorted() === "desc"
+                  ? "desc"
+                  : null
+            }
+            onSort={column.getToggleSortingHandler()}
+            column={column}
+          >
+            {t(`catalog.exploration.columns.${CATEGORY_TABS[category].resourceColumnKey}`)}
+          </SortableHeader>
+        ),
+        cell: ({ getValue }) => {
+          const val = getValue<string | null>();
+          if (!val) return <TextCell>{undefined}</TextCell>;
+          return <HighlightText text={val} highlight={debouncedSearch} />;
+        },
       },
       {
         accessorKey: "tab_domain",
