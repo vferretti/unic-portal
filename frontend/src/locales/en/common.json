@@ -124,7 +124,7 @@
   },
   "home": {
     "greeting": "Hello, John",
-    "explore_title": "Explore the UnIC data lake",
+    "explore_title": "Explore",
     "explore_projects": "Project Directory",
     "explore_catalog": "Data Catalog",
     "stats_title": "UnIC in numbers",
