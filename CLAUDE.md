@@ -1,17 +1,18 @@
 # Project: unic-portal
 
 ## Architecture
-- **Backend**: Go REST API at `backend/` using **Gin** + **GORM** (PostgreSQL only)
+- **Backend**: Go REST API at `backend/` using **Gin** + **opensearch-go**
   - Entry point: `cmd/api/main.go`
   - Structure: `internal/database/`, `internal/repository/`, `internal/server/`, `internal/types/`
   - Repository pattern with DAO interfaces, handler factories returning `gin.HandlerFunc`
-  - Run: `cd backend && PGPASSWORD=... /usr/local/go/bin/go run ./cmd/api/`
+  - Run: `cd backend && /usr/local/go/bin/go run ./cmd/api/`
 - **Frontend**: React 19 + TypeScript + Vite at `frontend/`
   - **Routing**: React Router v7 (SPA mode, `createBrowserRouter`). Routes in `src/routes/`, layout in `root.tsx`
   - **Data fetching**: Axios (`src/lib/api.ts`) + SWR (`src/hooks/useResources.ts`)
   - **i18n**: i18next + react-i18next. Translations in `src/locales/{en,fr}/common.json`. Init in `src/lib/i18n.ts`
   - **Types**: Shared interfaces in `src/types/`
-- **DB**: PostgreSQL on `localhost:5435`, user `vincent`, db `unic_db` (requires password via `PGPASSWORD` env var)
+- **Dev data layer**: Separate repo [unic-etl4dev](../unic-etl4dev) provides OpenSearch (port 9200) with seeded indexes for local development. Start it first.
+- **OpenSearch connection**: Via env vars `OPENSEARCH_HOST` (default `localhost`) and `OPENSEARCH_PORT` (default `9200`). In production, set these to the production OpenSearch cluster.
 - **Stack mirrors**: [radiant-portal](https://github.com/radiant-network/radiant-portal)
 
 ## Key conventions
@@ -23,13 +24,8 @@
 ## Gotchas
 - **Node version**: Must use Node 22 via nvm (`source ~/.nvm/nvm.sh && nvm use 22`). Default system Node is v12 (too old).
 - **Go binary**: At `/usr/local/go/bin/go`, not in PATH.
-- **GORM timestamp scan**: Repository uses `db.Raw()` with `last_update::text` cast for backward-compatible string output. Alternative: use `*time.Time` in GORM model with `db.Find()`.
 - **shadcn CLI path bug**: `npx shadcn@latest add` may create files at `@/components/ui/` (literal `@` dir) instead of `src/components/ui/`. Check and move if needed.
 - **npm commands**: Must run from `frontend/` dir.
-
-## DB schema reference
-- `catalog.resource` table has: code, name, last_update (timestamp), project_principal_investigator, description_fr, description_en, resource_type, project_status, project_erb_id, project_creation_date, etc.
-- Filter: `resource_type = 'research_project'`
 
 ## ETL & OpenSearch pipeline (unic-dag)
 - **Repo**: `Ferlab-Ste-Justine/unic-dag`
@@ -42,6 +38,6 @@
 
 ## Migration plan: PostgreSQL → OpenSearch for portal API
 - **Radiant-portal does NOT use ES/OpenSearch** — it queries PostgreSQL + StarRocks with GORM only. No reference ES integration to copy.
-- **Plan**: Add `opensearch-go` client to Go backend, create new repository implementations querying the 3 OS indexes, keep same handler factory pattern (swap repo impl), keep PostgreSQL for non-catalog data (auth, user prefs) if needed later.
+- **Plan**: Add `opensearch-go` client to Go backend, create new repository implementations querying the 3 OS indexes, keep same handler factory pattern (swap repo impl). PostgreSQL will be added later for non-catalog features (cart).
 - **Architecture**: Handlers (Gin) → DAO interfaces → OpenSearch client → `resource_centric` / `table_centric` / `variable_centric`
 - **Index templates** will be modified (instructions pending)
