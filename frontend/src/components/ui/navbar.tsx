@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { FolderOpen, BookOpen, ChevronDown, UserRound, LogOut } from "lucide-react";
+import { FolderOpen, BookOpen, ShoppingCart, ChevronDown, UserRound, LogOut } from "lucide-react";
+import { useCartContext } from "@/contexts/cart-context";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LangSwitcher } from "@/components/ui/lang-switcher";
@@ -29,6 +30,7 @@ export function Navbar() {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
+  const { count: cartCount } = useCartContext();
 
   const navItems: NavItem[] = [
     { label: t("navbar.projects"), to: "/projects", icon: <FolderOpen className="size-4" /> },
@@ -60,6 +62,21 @@ export function Navbar() {
         ))}
       </div>
       <div className="flex items-center gap-4">
+        <Link
+          to="/cart"
+          className={cn(
+            "relative inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
+            location.pathname === "/cart" && "text-primary",
+          )}
+          title={t("navbar.cart")}
+        >
+          <ShoppingCart className="size-4" />
+          {cartCount > 0 && (
+            <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+              {cartCount > 99 ? "99+" : cartCount}
+            </span>
+          )}
+        </Link>
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-2 rounded-md px-2 py-1 text-sm hover:bg-accent transition-colors outline-none cursor-pointer">
             <span className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">

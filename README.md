@@ -20,7 +20,7 @@
 
 ## Architecture Overview
 
-The portal consists of a Go API backend and a React frontend that query OpenSearch indexes for catalog data.
+The portal consists of a Go API backend and a React frontend that query OpenSearch indexes for catalog data. A PostgreSQL database (managed by the portal's own docker-compose) stores application state such as the variable cart.
 
 The **dev data layer** (PostgreSQL + OpenSearch + mini ETL) lives in a separate repository: [unic-etl4dev](https://github.com/vferretti/unic-etl4dev). Start it first to have OpenSearch running with seeded indexes.
 
@@ -33,9 +33,9 @@ unic-etl4dev/                    ← Dev data layer (separate repo)
 └── docker-compose.yml           ← postgres, opensearch, etl-seed
 
 unic-portal/                     ← This repo
-├── backend/                     ← Go API (queries OpenSearch)
+├── backend/                     ← Go API (queries OpenSearch + PostgreSQL)
 ├── frontend/                    ← React + Vite
-└── docker-compose.yml           ← API + frontend
+└── docker-compose.yml           ← PostgreSQL + API + frontend
 ```
 
 ---
@@ -87,9 +87,9 @@ docker compose version
 
 | Command | Description |
 |---------|-------------|
-| `docker compose up --build` | Build and start API + frontend |
+| `docker compose up --build` | Build and start PostgreSQL + API + frontend |
 | `docker compose up --build -d` | Same but in background |
-| `docker compose down` | Stop API + frontend |
+| `docker compose down` | Stop all services |
 | `docker compose logs -f api` | Follow API logs |
 | `docker compose restart api` | Restart the API service |
 
@@ -99,6 +99,7 @@ docker compose version
 |---------|---------------|-----------|-----|
 | Frontend (nginx) | 80 | **3000** | http://localhost:3000 |
 | API (Go) | 8080 | **8081** | http://localhost:8081 |
+| PostgreSQL | 5432 | **5437** | `psql -h localhost -p 5437 -U unic unic_portal` |
 | OpenSearch (from unic-etl4dev) | 9200 | **9200** | http://localhost:9200 |
 | Swagger UI | — | **8081** | http://localhost:8081/swagger/index.html |
 
@@ -108,8 +109,13 @@ docker compose version
 |----------|---------|-------------|
 | `OPENSEARCH_HOST` | `host.docker.internal` (Docker) / `localhost` (local) | OpenSearch hostname |
 | `OPENSEARCH_PORT` | `9200` | OpenSearch port |
+| `POSTGRES_HOST` | `postgres` (Docker) / `localhost` (local) | PostgreSQL hostname |
+| `POSTGRES_PORT` | `5432` | PostgreSQL port |
+| `POSTGRES_USER` | `unic` | PostgreSQL user |
+| `POSTGRES_PASSWORD` | `unic` | PostgreSQL password |
+| `POSTGRES_DB` | `unic_portal` | PostgreSQL database name |
 
-In production, set these to point to the production OpenSearch cluster.
+In production, set OpenSearch and PostgreSQL variables to point to the production clusters.
 
 ### Troubleshooting
 
@@ -155,17 +161,30 @@ cd backend
 /usr/local/go/bin/go install github.com/swaggo/swag/cmd/swag@latest
 PATH="/usr/local/go/bin:$PATH" ~/go/bin/swag init -g cmd/api/main.go -o docs/ --parseDependency --parseInternal
 
-# Start the API (OpenSearch defaults to localhost:9200)
+# Start the API (OpenSearch defaults to localhost:9200, PostgreSQL defaults to localhost:5432)
 /usr/local/go/bin/go run ./cmd/api/
 ```
 
-The API starts on http://localhost:8080.
+The API starts on http://localhost:8080. It requires both OpenSearch (from unic-etl4dev) and PostgreSQL to be running.
+
+For local development, start a PostgreSQL instance (e.g. via Docker):
+
+```bash
+docker run -d --name unic-portal-pg -p 5432:5432 \
+  -e POSTGRES_DB=unic_portal -e POSTGRES_USER=unic -e POSTGRES_PASSWORD=unic \
+  postgres:16-alpine
+```
 
 Environment variables:
 
 ```
 OPENSEARCH_HOST=localhost   # default
 OPENSEARCH_PORT=9200        # default
+POSTGRES_HOST=localhost     # default
+POSTGRES_PORT=5432          # default
+POSTGRES_USER=unic          # default
+POSTGRES_PASSWORD=unic      # default
+POSTGRES_DB=unic_portal     # default
 ```
 
 ### Frontend (React + Vite)

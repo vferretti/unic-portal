@@ -8,8 +8,10 @@ import Root from "./routes/root";
 import Resources from "./routes/resources";
 import Catalog from "./routes/catalog";
 import CatalogExploration from "./routes/catalog-exploration";
+import Cart from "./routes/cart";
 import Home from "./routes/home";
 import { LandingPage } from "./components/ui/landing-page";
+import { CartProvider } from "./contexts/cart-context";
 
 const router = createBrowserRouter([
   {
@@ -56,12 +58,24 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/cart",
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <Cart />,
+      },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider attribute="class" defaultTheme="light">
-      <RouterProvider router={router} />
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
     </ThemeProvider>
   </StrictMode>
 );

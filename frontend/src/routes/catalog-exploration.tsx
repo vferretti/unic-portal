@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useSearchParams, Navigate, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { BookOpen } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useCartContext } from "@/contexts/cart-context";
 import {
   type ColumnDef,
   type SortingState,
@@ -744,6 +746,7 @@ const VARIABLE_SORT_FIELDS: Record<string, string> = {
 
 function DictVariableTable({ category, systems, tables }: { category: string; systems?: string[]; tables?: string[] }) {
   const { t, i18n } = useTranslation();
+  const { selectedVarIds, addVariables, removeVariables } = useCartContext();
 
   const [sorting, setSorting] = useState<SortingState>([
     { id: "var_name", desc: false },
@@ -782,6 +785,29 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
 
   const columns = useMemo(() => {
     const cols: ColumnDef<DictVariable>[] = [
+      {
+        id: "select",
+        size: 40,
+        enableSorting: false,
+        enableResizing: false,
+        header: () => null,
+        cell: ({ row }) => {
+          const varId = row.original.var_id;
+          const isSelected = selectedVarIds.has(varId);
+          return (
+            <Checkbox
+              checked={isSelected}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  addVariables([row.original]);
+                } else {
+                  removeVariables([varId]);
+                }
+              }}
+            />
+          );
+        },
+      },
       {
         accessorKey: "var_name",
         size: 200,
@@ -922,7 +948,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
       });
     }
     return cols;
-  }, [t, i18n.language, category, debouncedSearch]);
+  }, [t, i18n.language, category, debouncedSearch, selectedVarIds, addVariables, removeVariables]);
 
   const table = useReactTable({
     data,

@@ -1,7 +1,8 @@
 {
   "navbar": {
     "projects": "Projects",
-    "catalog": "Data Catalog"
+    "catalog": "Data Catalog",
+    "cart": "Cart"
   },
   "resources": {
     "title": "Project Directory",
@@ -144,6 +145,24 @@
     "green_zone_title": "Green Zone",
     "green_zone_description": "Connect to your workspace to download your datasets or analyze them with our online tool suite.",
     "green_zone_connect": "Connect"
+  },
+  "cart": {
+    "title": "Variable Cart",
+    "description": "Variables you have selected from the catalog.",
+    "empty_title": "Your cart is empty",
+    "empty_description": "Select variables from the catalog to add them to your cart.",
+    "item_count_one": "{{count}} variable",
+    "item_count_other": "{{count}} variables",
+    "item_count": "{{count}} variable(s)",
+    "clear": "Clear cart",
+    "export": "Export to Excel",
+    "remove": "Remove",
+    "columns": {
+      "variable": "Variable",
+      "label": "Label",
+      "table": "Table",
+      "resource": "Resource"
+    }
   },
   "common": {
     "loading": "Loading...",

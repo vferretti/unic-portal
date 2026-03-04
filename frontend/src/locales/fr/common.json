@@ -1,7 +1,8 @@
 {
   "navbar": {
     "projects": "Projets",
-    "catalog": "Catalogue de données"
+    "catalog": "Catalogue de données",
+    "cart": "Panier"
   },
   "resources": {
     "title": "Répertoire des projets",
@@ -144,6 +145,24 @@
     "green_zone_title": "Zone Verte",
     "green_zone_description": "Connectez vous à votre espace de travail pour télécharger vos jeux de données ou les analyser avec notre suite d'outils en ligne.",
     "green_zone_connect": "Connexion"
+  },
+  "cart": {
+    "title": "Panier de variables",
+    "description": "Les variables que vous avez sélectionnées dans le catalogue.",
+    "empty_title": "Votre panier est vide",
+    "empty_description": "Sélectionnez des variables dans le catalogue pour les ajouter à votre panier.",
+    "item_count_one": "{{count}} variable",
+    "item_count_other": "{{count}} variables",
+    "item_count": "{{count}} variable(s)",
+    "clear": "Vider le panier",
+    "export": "Exporter en Excel",
+    "remove": "Retirer",
+    "columns": {
+      "variable": "Variable",
+      "label": "Libellé",
+      "table": "Table",
+      "resource": "Ressource"
+    }
   },
   "common": {
     "loading": "Chargement...",

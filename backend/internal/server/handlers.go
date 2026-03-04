@@ -11,12 +11,12 @@ import (
 	"portal/internal/types"
 )
 
-func SetupRouter(resourceRepo repository.ResourceDAO, dictTableRepo repository.DictTableDAO, dictVariableRepo repository.DictVariableDAO) *gin.Engine {
+func SetupRouter(resourceRepo repository.ResourceDAO, dictTableRepo repository.DictTableDAO, dictVariableRepo repository.DictVariableDAO, cartRepo repository.CartDAO) *gin.Engine {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "OPTIONS"},
+		AllowMethods:     []string{"GET", "POST", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Content-Type"},
 		AllowCredentials: false,
 	}))
@@ -30,6 +30,15 @@ func SetupRouter(resourceRepo repository.ResourceDAO, dictTableRepo repository.D
 		api.GET("/catalog/tables", ListTablesByResourceTypeHandler(dictTableRepo))
 		api.GET("/catalog/variables", ListVariablesByResourceTypeHandler(dictVariableRepo))
 		api.GET("/catalog/stats", CatalogStatsHandler(resourceRepo))
+
+		cart := api.Group("/cart")
+		{
+			cart.GET("/items", ListCartItemsHandler(cartRepo))
+			cart.GET("/count", CartCountHandler(cartRepo))
+			cart.POST("/items", AddCartItemsHandler(cartRepo))
+			cart.DELETE("/items", RemoveCartItemsHandler(cartRepo))
+			cart.DELETE("", ClearCartHandler(cartRepo))
+		}
 	}
 
 	return r

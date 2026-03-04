@@ -1,23 +1,42 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5437:5432"
+    environment:
+      POSTGRES_DB: unic_portal
+      POSTGRES_USER: unic
+      POSTGRES_PASSWORD: unic
+    volumes:
+      - portal_pgdata:/var/lib/postgresql/data
+
   api:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: unic-api
     ports:
       - "8081:8080"
     environment:
       OPENSEARCH_HOST: ${OPENSEARCH_HOST:-host.docker.internal}
       OPENSEARCH_PORT: ${OPENSEARCH_PORT:-9200}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: unic
+      POSTGRES_PASSWORD: unic
+      POSTGRES_DB: unic_portal
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - postgres
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: unic-frontend
     ports:
       - "3000:80"
     depends_on:
       - api
+
+volumes:
+  portal_pgdata:
