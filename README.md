@@ -233,4 +233,6 @@ cd backend
 PATH="/usr/local/go/bin:$PATH" ~/go/bin/swag init -g cmd/api/main.go -o docs/ --parseDependency --parseInternal
 ```
 
+Then **restart the API server** — the swagger spec is embedded at compile time, so the running process must be restarted to serve the updated docs.
+
 This generates `backend/docs/` (docs.go, swagger.json, swagger.yaml). The `docs/` directory is gitignored — regenerate it locally after cloning.

@@ -38,3 +38,17 @@ type CartItemInput struct {
 type RemoveCartItemsRequest struct {
 	VarIDs []int `json:"var_ids" binding:"required"`
 }
+
+type CartListResponse struct {
+	Items []CartItem `json:"items"`
+	Count int64      `json:"count"`
+}
+
+type CartCountResponse struct {
+	Count int64 `json:"count"`
+}
+
+type CartMutationResponse struct {
+	Success bool  `json:"success"`
+	Count   int64 `json:"count"`
+}
