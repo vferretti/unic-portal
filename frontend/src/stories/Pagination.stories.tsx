@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { fn } from "@storybook/test";
+import { action } from "storybook/actions";
 import { PaginationBar } from "@/components/ui/pagination";
 
 const meta: Meta<typeof PaginationBar> = {
@@ -17,8 +17,8 @@ export const Default: Story = {
     totalPages: 10,
     totalResults: 100,
     pageSize: 10,
-    onPageChange: fn(),
-    onPageSizeChange: fn(),
+    onPageChange: action("change"),
+    onPageSizeChange: action("change"),
   },
 };
 
@@ -28,8 +28,8 @@ export const ManyPages: Story = {
     totalPages: 50,
     totalResults: 500,
     pageSize: 10,
-    onPageChange: fn(),
-    onPageSizeChange: fn(),
+    onPageChange: action("change"),
+    onPageSizeChange: action("change"),
   },
 };
 
@@ -39,7 +39,7 @@ export const LastPage: Story = {
     totalPages: 10,
     totalResults: 100,
     pageSize: 10,
-    onPageChange: fn(),
-    onPageSizeChange: fn(),
+    onPageChange: action("change"),
+    onPageSizeChange: action("change"),
   },
 };

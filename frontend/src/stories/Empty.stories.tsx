@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Search, Inbox, FileX } from "lucide-react";
+import { Inbox, FileX } from "lucide-react";
 import { Empty } from "@/components/ui/empty";
 
 const meta: Meta<typeof Empty> = {

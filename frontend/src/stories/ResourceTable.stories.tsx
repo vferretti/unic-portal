@@ -45,19 +45,34 @@ const RESOURCE_TYPE_BADGE: Record<string, "green" | "blue" | "secondary"> = {
 };
 
 const resources: Resource[] = Array.from({ length: 45 }, (_, i) => ({
-  name: `Research Project ${i + 1}`,
-  resource_type: i % 3 === 0 ? "eqp" : "research_project",
-  last_update:
-    i % 5 === 0 ? null : `2025-${String((i % 12) + 1).padStart(2, "0")}-15`,
-  project_principal_investigator:
-    i % 4 === 0 ? null : `Dr. Researcher ${i + 1}`,
-  description_fr:
+  rs_id: i + 1,
+  rs_code: `RS-${String(i + 1).padStart(3, "0")}`,
+  rs_name: `Research Project ${i + 1}`,
+  rs_title: `Research Project ${i + 1}`,
+  rs_type: i % 3 === 0 ? "eqp" : "research_project",
+  rs_description_fr:
     i % 3 === 0 ? null : `Description du projet de recherche ${i + 1}`,
+  rs_description_en: null,
+  rs_project_pi: i % 4 === 0 ? null : `Dr. Researcher ${i + 1}`,
+  rs_project_erb_id: null,
+  rs_project_status: null,
+  rs_project_creation_date: null,
+  rs_project_completion_date: null,
+  rs_project_approval_date: null,
+  rs_project_approved: null,
+  rs_is_project: i % 3 !== 0,
+  rs_project_folder: null,
+  rs_system_database_type: null,
+  rs_system_collection_starting_year: null,
+  rs_dict_current_version: null,
+  rs_last_update:
+    i % 5 === 0 ? null : `2025-${String((i % 12) + 1).padStart(2, "0")}-15`,
+  stat_etl: null,
 }));
 
 function ResourceTable() {
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "name", desc: false },
+    { id: "rs_name", desc: false },
   ]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -72,7 +87,7 @@ function ResourceTable() {
   const columns = useMemo<ColumnDef<Resource>[]>(
     () => [
       {
-        accessorKey: "name",
+        accessorKey: "rs_name",
         size: 200,
         header: ({ column }) => (
           <SortableHeader
@@ -96,7 +111,7 @@ function ResourceTable() {
         ),
       },
       {
-        accessorKey: "resource_type",
+        accessorKey: "rs_type",
         size: 100,
         header: ({ column }) => (
           <SortableHeader
@@ -123,7 +138,7 @@ function ResourceTable() {
         },
       },
       {
-        accessorKey: "last_update",
+        accessorKey: "rs_last_update",
         size: 120,
         header: ({ column }) => (
           <SortableHeader
@@ -143,7 +158,7 @@ function ResourceTable() {
         cell: ({ getValue }) => <DateCell date={getValue<string | null>()} />,
       },
       {
-        accessorKey: "project_principal_investigator",
+        accessorKey: "rs_project_pi",
         size: 200,
         header: ({ column }) => (
           <SortableHeader
@@ -165,7 +180,7 @@ function ResourceTable() {
         ),
       },
       {
-        accessorKey: "description_fr",
+        accessorKey: "rs_description_fr",
         size: 500,
         header: ({ column }) => (
           <SortableHeader

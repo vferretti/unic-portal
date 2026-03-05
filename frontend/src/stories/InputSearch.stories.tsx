@@ -6,8 +6,7 @@ import { HighlightText } from "@/components/ui/highlight-text";
 function InputSearchDemo() {
   const [search, setSearch] = useState("");
 
-  const items = [
-      ];
+  const items: string[] = [];
 
   const filtered = items.filter((item) =>
     item.toLowerCase().includes(search.toLowerCase()),

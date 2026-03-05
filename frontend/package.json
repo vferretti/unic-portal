@@ -19,6 +19,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "exceljs": "^4.4.0",
     "i18next": "^25.8.13",
     "i18next-browser-languagedetector": "^8.2.1",
     "lucide-react": "^0.575.0",
@@ -30,8 +31,7 @@
     "react-router": "^7.13.0",
     "swr": "^2.4.0",
     "tailwind-merge": "^3.5.0",
-    "tailwindcss": "^4.2.0",
-    "xlsx": "^0.18.5"
+    "tailwindcss": "^4.2.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.1",

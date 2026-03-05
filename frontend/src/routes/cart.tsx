@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Trash2, ShoppingCart, Download } from "lucide-react";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import { useCartContext } from "@/contexts/cart-context";
 import { PageHeader } from "@/components/ui/page-header";
 import { Empty } from "@/components/ui/empty";
@@ -19,18 +19,34 @@ export default function Cart() {
   const { t, i18n } = useTranslation();
   const { items, isLoading, removeVariables, clearCart } = useCartContext();
 
-  const handleExport = () => {
-    const rows = items.map((item) => ({
-      [t("cart.columns.variable")]: item.var_name,
-      [t("cart.columns.label")]:
+  const handleExport = async () => {
+    const wb = new ExcelJS.Workbook();
+    const ws = wb.addWorksheet("Variables");
+    const columns = [
+      t("cart.columns.variable"),
+      t("cart.columns.label"),
+      t("cart.columns.table"),
+      t("cart.columns.resource"),
+    ];
+    ws.addRow(columns);
+    for (const item of items) {
+      ws.addRow([
+        item.var_name,
         i18n.language === "fr" ? item.var_label_fr : item.var_label_en,
-      [t("cart.columns.table")]: item.tab_name,
-      [t("cart.columns.resource")]: item.rs_name,
-    }));
-    const ws = XLSX.utils.json_to_sheet(rows);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Variables");
-    XLSX.writeFile(wb, "cart_variables.xlsx");
+        item.tab_name,
+        item.rs_name,
+      ]);
+    }
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "cart_variables.xlsx";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
