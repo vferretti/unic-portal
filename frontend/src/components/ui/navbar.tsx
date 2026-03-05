@@ -38,7 +38,7 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="flex items-center h-navbar px-6 border-b bg-background shadow-xs w-full">
+    <nav className="flex items-center h-navbar px-6 border-b bg-navbar shadow-xs w-full">
       <Link to="/home" className="mr-6 flex items-center">
         <img
           src="/unic-logo-header.svg"

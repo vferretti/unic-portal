@@ -134,7 +134,7 @@ export default function Home() {
                     />
                   </div>
                 ))}
-                <Button className="bg-hero text-hero-foreground hover:bg-hero/90 ml-auto">
+                <Button className="bg-cta text-cta-foreground hover:bg-cta/90 ml-auto">
                   {t("home.green_zone_connect")}
                 </Button>
               </div>

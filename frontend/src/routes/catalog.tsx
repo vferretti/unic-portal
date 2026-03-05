@@ -41,10 +41,10 @@ const CATEGORY_COLORS: Record<CategoryType, {
   badge: "secondary";
   button: string;
 }> = {
-  source_system:    { badge: "secondary", button: "bg-hero text-hero-foreground hover:bg-hero/90" },
-  warehouse:        { badge: "secondary", button: "bg-hero text-hero-foreground hover:bg-hero/90" },
-  research_project: { badge: "secondary", button: "bg-hero text-hero-foreground hover:bg-hero/90" },
-  eqp:              { badge: "secondary", button: "bg-hero text-hero-foreground hover:bg-hero/90" },
+  source_system:    { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
+  warehouse:        { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
+  research_project: { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
+  eqp:              { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
 };
 
 const CATEGORY_ROUTES: Record<CategoryType, string> = {
