@@ -142,7 +142,7 @@
     "stats_label_systems": "hospital systems",
     "stats_label_tables": "variable tables",
     "stats_label_variables": "variables",
-    "green_zone_title": "Green Zone",
+    "green_zone_title": "Your Datasets",
     "green_zone_description": "Connect to your workspace to download your datasets or analyze them with our online tool suite.",
     "green_zone_connect": "Connect"
   },

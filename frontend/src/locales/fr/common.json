@@ -142,8 +142,8 @@
     "stats_label_systems": "systèmes hospitaliers",
     "stats_label_tables": "tables de variables",
     "stats_label_variables": "variables",
-    "green_zone_title": "Zone Verte",
-    "green_zone_description": "Connectez vous à votre espace de travail pour télécharger vos jeux de données ou les analyser avec notre suite d'outils en ligne.",
+    "green_zone_title": "Vos jeux de données",
+    "green_zone_description": "Connectez-vous à votre espace de travail pour télécharger vos jeux de données ou les analyser avec notre suite d'outils en ligne.",
     "green_zone_connect": "Connexion"
   },
   "cart": {
