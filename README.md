@@ -154,26 +154,31 @@ For active development, run the data layer in Docker (via unic-etl4dev) and the 
 
 ### Backend (Go API)
 
-```bash
-cd backend
+The API requires both OpenSearch (from unic-etl4dev) and PostgreSQL to be running.
 
-# Generate Swagger docs (required on first clone)
-/usr/local/go/bin/go install github.com/swaggo/swag/cmd/swag@latest
-PATH="/usr/local/go/bin:$PATH" ~/go/bin/swag init -g cmd/api/main.go -o docs/ --parseDependency --parseInternal
-
-# Start the API (OpenSearch defaults to localhost:9200, PostgreSQL defaults to localhost:5432)
-/usr/local/go/bin/go run ./cmd/api/
-```
-
-The API starts on http://localhost:8080. It requires both OpenSearch (from unic-etl4dev) and PostgreSQL to be running.
-
-For local development, start a PostgreSQL instance (e.g. via Docker):
+**1. Start PostgreSQL** (e.g. via Docker):
 
 ```bash
 docker run -d --name unic-portal-pg -p 5432:5432 \
   -e POSTGRES_DB=unic_portal -e POSTGRES_USER=unic -e POSTGRES_PASSWORD=unic \
   postgres:16-alpine
 ```
+
+**2. Generate Swagger docs** (required on first clone):
+
+```bash
+cd backend
+/usr/local/go/bin/go install github.com/swaggo/swag/cmd/swag@latest
+PATH="/usr/local/go/bin:$PATH" ~/go/bin/swag init -g cmd/api/main.go -o docs/ --parseDependency --parseInternal
+```
+
+**3. Start the API**:
+
+```bash
+/usr/local/go/bin/go run ./cmd/api/
+```
+
+The API starts on http://localhost:8080.
 
 Environment variables:
 
