@@ -107,13 +107,6 @@
   --breakpoint-md: 768px;
   --breakpoint-xl: 1280px;
 
-  /* Brand palette (CHU Sainte-Justine / UNIC logo) */
-  --color-brand-navy: oklch(0.343 0.083 258.76);
-  --color-brand-blue: oklch(0.402 0.132 264.49);
-  --color-brand-teal: oklch(0.884 0.043 198.34);
-  --color-brand-orange: oklch(0.798 0.150 70.01);
-  --color-brand-orange-dark: oklch(0.738 0.153 68.27);
-
   /* Radiant color palette — custom, not a Tailwind built-in */
   --color-radiant-50: oklch(0.98 0.01 228.92 / 1);
   --color-radiant-100: oklch(0.96 0.03 231.05 / 1);
@@ -193,14 +186,14 @@
   --highlight-foreground: var(--color-yellow-900);
 
   /* Navbar */
-  --navbar: var(--color-brand-teal);
+  --navbar: var(--color-radiant-950);
 
-  /* CTA buttons (brand orange from logo) */
-  --cta: var(--color-brand-orange);
-  --cta-foreground: var(--color-brand-blue);
+  /* CTA buttons */
+  --cta: var(--color-radiant-700);
+  --cta-foreground: var(--color-white);
 
-  /* Hero / landing background (brand: CHU Sainte-Justine) */
-  --hero: var(--color-brand-navy);
+  /* Hero / landing background */
+  --hero: var(--color-radiant-950);
   --hero-foreground: var(--color-white);
   --hero-overlay: oklch(1 0 0 / 0.23);
 
@@ -272,8 +265,8 @@
   --navbar: var(--color-slate-900);
 
   /* CTA buttons */
-  --cta: var(--color-brand-orange-dark);
-  --cta-foreground: var(--color-white);
+  --cta: var(--color-radiant-200);
+  --cta-foreground: var(--color-radiant-950);
 
   /* Search highlight */
   --highlight: var(--color-yellow-800);

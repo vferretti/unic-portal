@@ -20,7 +20,7 @@ export function LangSwitcher({ className }: { className?: string }) {
     <Button
       variant="ghost"
       size="icon-xs"
-      className={cn("px-3 text-sm text-muted-foreground", className)}
+      className={cn("px-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white", className)}
       disabled={isLoading}
       onClick={handleLanguageChange}
     >

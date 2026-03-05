@@ -178,7 +178,7 @@ PATH="/usr/local/go/bin:$PATH" ~/go/bin/swag init -g cmd/api/main.go -o docs/ --
 /usr/local/go/bin/go run ./cmd/api/
 ```
 
-The API starts on http://localhost:8080.
+The API starts on http://localhost:8080. All endpoints are under `/api`, e.g. http://localhost:8080/api/resources.
 
 Environment variables:
 
