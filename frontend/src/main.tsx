@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { ThemeProvider } from "next-themes";
+import { TooltipProvider } from "./components/base/ui/tooltip";
 import "./index.css";
 import "./lib/i18n";
 import Root from "./routes/root";
@@ -73,9 +74,11 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider attribute="class" defaultTheme="light">
-      <CartProvider>
-        <RouterProvider router={router} />
-      </CartProvider>
+      <TooltipProvider>
+        <CartProvider>
+          <RouterProvider router={router} />
+        </CartProvider>
+      </TooltipProvider>
     </ThemeProvider>
   </StrictMode>,
 );

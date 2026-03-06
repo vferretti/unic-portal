@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { BookOpen } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/base/ui/tooltip";
 import {
   type ColumnDef,
   type SortingState,
@@ -72,7 +73,7 @@ export default function Resources() {
   });
   const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({
     left: [],
-    right: ["dictionary"],
+    right: [],
   });
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
 
@@ -160,26 +161,6 @@ export default function Resources() {
         ),
       },
       {
-        id: "dictionary",
-        size: 80,
-        enableSorting: false,
-        enableResizing: false,
-        header: ({ column }) => <SortableHeader column={column}>{t("resources.columns.dictionary")}</SortableHeader>,
-        cell: ({ row }) => {
-          const route = RESOURCE_TYPE_ROUTE[row.original.rs_type];
-          if (!route) return null;
-          return (
-            <Link
-              to={`/catalog/${route}?resource=${encodeURIComponent(row.original.rs_name)}&tab=tables`}
-              className="inline-flex items-center justify-center text-primary hover:text-primary/80 transition-colors"
-              title={t("resources.columns.dictionary_tooltip")}
-            >
-              <BookOpen className="size-4" />
-            </Link>
-          );
-        },
-      },
-      {
         accessorKey: "rs_last_update",
         size: 120,
         header: ({ column }) => (
@@ -210,6 +191,30 @@ export default function Resources() {
             <HighlightText text={getValue<string | null>()} highlight={search} />
           </TextCell>
         ),
+      },
+      {
+        id: "dictionary",
+        size: 50,
+        enableSorting: false,
+        enableResizing: false,
+        header: () => null,
+        cell: ({ row }) => {
+          const route = RESOURCE_TYPE_ROUTE[row.original.rs_type];
+          if (!route) return null;
+          return (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  to={`/catalog/${route}?resource=${encodeURIComponent(row.original.rs_name)}&tab=tables`}
+                  className="inline-flex items-center justify-center text-primary hover:text-primary/80 transition-colors"
+                >
+                  <BookOpen className="size-4" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>{t("resources.columns.dictionary_tooltip")}</TooltipContent>
+            </Tooltip>
+          );
+        },
       },
     ],
     [t, i18n.language, search],

@@ -19,7 +19,7 @@
       "variable_count": "Variables",
       "description": "Description",
       "dictionary": "Dict.",
-      "dictionary_tooltip": "Dictionnaire"
+      "dictionary_tooltip": "Explorer le dictionnaire du projet"
     },
     "types": {
       "research_project": "Recherche",
