@@ -893,7 +893,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
       });
     }
     return cols;
-  }, [t, i18n.language, category, debouncedSearch, selectedVarIds, addVariables, removeVariables]);
+  }, [t, i18n.language, category, debouncedSearch, data, selectedVarIds, addVariables, removeVariables]);
 
   const table = useReactTable({
     data,
