@@ -158,11 +158,12 @@
     "item_count_one": "{{count}} variable",
     "item_count_other": "{{count}} variables",
     "item_count": "{{count}} variable(s)",
+    "search": "Name, Label, Table, Resource",
     "clear": "Clear cart",
     "export": "Export to Excel",
     "remove": "Remove",
     "columns": {
-      "variable": "Variable",
+      "variable": "Name",
       "label": "Label",
       "table": "Table",
       "resource": "Resource"
