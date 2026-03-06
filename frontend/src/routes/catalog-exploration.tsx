@@ -746,7 +746,24 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         size: 40,
         enableSorting: false,
         enableResizing: false,
-        header: () => null,
+        header: () => {
+          const pageVarIds = data.map((v) => v.var_id);
+          const allPageSelected = pageVarIds.length > 0 && pageVarIds.every((id) => selectedVarIds.has(id));
+          const somePageSelected = !allPageSelected && pageVarIds.some((id) => selectedVarIds.has(id));
+          return (
+            <Checkbox
+              checked={allPageSelected || (somePageSelected && "indeterminate")}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  const toAdd = data.filter((v) => !selectedVarIds.has(v.var_id));
+                  if (toAdd.length > 0) addVariables(toAdd);
+                } else {
+                  removeVariables(pageVarIds);
+                }
+              }}
+            />
+          );
+        },
         cell: ({ row }) => {
           const varId = row.original.var_id;
           const isSelected = selectedVarIds.has(varId);
