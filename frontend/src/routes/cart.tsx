@@ -21,6 +21,7 @@ import { PaginationBar } from "@/components/base/table/pagination";
 import { SortableHeader } from "@/components/base/table/sortable-header";
 import { Button } from "@/components/base/ui/button";
 import { TextCell } from "@/components/base/table/cells";
+import { HighlightText } from "@/components/base/highlight-text";
 import type { CartItem } from "@/types/cart";
 
 export default function Cart() {
@@ -59,15 +60,11 @@ export default function Cart() {
         ),
         cell: ({ getValue }) => (
           <span className="font-medium">
-            <TextCell>{getValue<string>()}</TextCell>
+            <TextCell>
+              <HighlightText text={getValue<string>()} highlight={search} />
+            </TextCell>
           </span>
         ),
-      },
-      {
-        id: "label",
-        accessorFn: (row) => (i18n.language === "fr" ? row.var_label_fr : row.var_label_en),
-        header: t("cart.columns.label"),
-        cell: ({ getValue }) => <TextCell>{getValue<string>()}</TextCell>,
       },
       {
         accessorKey: "tab_name",
@@ -80,7 +77,11 @@ export default function Cart() {
             {t("cart.columns.table")}
           </SortableHeader>
         ),
-        cell: ({ getValue }) => <TextCell>{getValue<string>()}</TextCell>,
+        cell: ({ getValue }) => (
+          <TextCell>
+            <HighlightText text={getValue<string>()} highlight={search} />
+          </TextCell>
+        ),
       },
       {
         accessorKey: "rs_name",
@@ -93,7 +94,25 @@ export default function Cart() {
             {t("cart.columns.resource")}
           </SortableHeader>
         ),
-        cell: ({ getValue }) => <TextCell>{getValue<string>()}</TextCell>,
+        cell: ({ getValue }) => (
+          <TextCell>
+            <HighlightText text={getValue<string>()} highlight={search} />
+          </TextCell>
+        ),
+      },
+      {
+        id: "label",
+        accessorFn: (row) => (i18n.language === "fr" ? row.var_label_fr : row.var_label_en),
+        header: t("cart.columns.label"),
+        cell: ({ getValue }) => {
+          const val = getValue<string | null>();
+          if (!val?.trim()) return <TextCell>{undefined}</TextCell>;
+          return (
+            <TextCell>
+              <HighlightText text={val} highlight={search} />
+            </TextCell>
+          );
+        },
       },
       {
         id: "actions",
@@ -110,7 +129,7 @@ export default function Cart() {
         ),
       },
     ],
-    [t, i18n.language, removeVariables],
+    [t, i18n.language, search, removeVariables],
   );
 
   const table = useReactTable({
