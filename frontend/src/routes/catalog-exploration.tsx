@@ -117,22 +117,27 @@ export default function CatalogExploration() {
   return (
     <>
       <PageHeader
-        title={
-          <>
-            <Link to="/catalog" className="text-muted-foreground hover:text-foreground transition-colors"><BookOpen className="size-[1.5rem]" /></Link>
-            <span className="text-muted-foreground mx-2 font-normal">/</span>
+        title={t(`catalog.categories.${category}.header_title`)}
+        description={t(`catalog.categories.${category}.short_description`)}
+      />
+      <div className="p-8">
+        <div className="rounded-lg border bg-background p-6">
+          <nav className="flex items-center text-sm mb-4">
+            <Link to="/catalog" className="text-muted-foreground hover:text-foreground transition-colors">
+              <BookOpen className="size-4" />
+            </Link>
+            <span className="text-muted-foreground mx-2">/</span>
             {selectedSystem ? (
               <>
-                <Link
-                  to={`/catalog/${type}`}
-                  onClick={(e) => { e.preventDefault(); handleClearFilter(); }}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <button
+                  onClick={handleClearFilter}
+                  className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
                   {t(`catalog.categories.${category}.title`)}
-                </Link>
+                </button>
                 {category !== "warehouse" && (
                   <>
-                    <span className="text-muted-foreground mx-2 font-normal">/</span>
+                    <span className="text-muted-foreground mx-2">/</span>
                     {selectedTable ? (
                       <button
                         onClick={() => setSelectedTable(null)}
@@ -141,28 +146,36 @@ export default function CatalogExploration() {
                         {selectedSystem}
                       </button>
                     ) : (
-                      selectedSystem
+                      <span className="font-medium">{selectedSystem}</span>
                     )}
                   </>
                 )}
                 {selectedTable && (
                   <>
-                    <span className="text-muted-foreground mx-2 font-normal">/</span>
-                    {selectedTable}
+                    <span className="text-muted-foreground mx-2">/</span>
+                    <span className="font-medium">{selectedTable}</span>
                   </>
                 )}
               </>
             ) : (
-              t(`catalog.categories.${category}.title`)
+              <span className="font-medium">{t(`catalog.categories.${category}.title`)}</span>
             )}
-          </>
-        }
-        description={t(`catalog.categories.${category}.short_description`)}
-      />
-      <div className="p-8">
-        <div className="rounded-lg border bg-background p-6">
+            {(selectedSystem || selectedTable) && (
+              <div className="ml-auto flex items-center gap-2">
+                <span className="text-muted-foreground">
+                  <span className="font-bold">{t("catalog.exploration.filters.filtered_by")}</span> {selectedTable ?? selectedSystem}
+                </span>
+                <button
+                  onClick={handleClearFilter}
+                  className="text-primary underline hover:no-underline cursor-pointer"
+                >
+                  {t("catalog.exploration.filters.clear")}
+                </button>
+              </div>
+            )}
+          </nav>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <div className="flex items-center border-b mb-4">
+            <div className="border-b mb-4">
             <TabsList variant="line" className="pb-0 gap-4">
               {tabConfig?.tabs.includes("resources") && (
                 <TabsTrigger value="resources">
@@ -176,19 +189,6 @@ export default function CatalogExploration() {
                 {t("catalog.tabs.variables")}{typeStat ? ` (${typeStat.variable_count.toLocaleString()})` : ""}
               </TabsTrigger>
             </TabsList>
-              {(selectedSystem || selectedTable) && (
-                <div className="ml-auto flex items-center gap-2 pb-1">
-                  <span className="text-sm text-muted-foreground">
-                    <span className="font-bold">{t("catalog.exploration.filters.filtered_by")}</span> {selectedTable ?? selectedSystem}
-                  </span>
-                  <button
-                    onClick={handleClearFilter}
-                    className="text-sm text-primary underline hover:no-underline cursor-pointer"
-                  >
-                    {t("catalog.exploration.filters.clear")}
-                  </button>
-                </div>
-              )}
             </div>
             {tabConfig?.tabs.includes("resources") && (
               <TabsContent value="resources">
