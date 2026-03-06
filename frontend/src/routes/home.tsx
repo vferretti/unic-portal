@@ -108,9 +108,9 @@ export default function Home() {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg">{t("home.green_zone_title")}</CardTitle>
+              <p className="text-sm text-muted-foreground">{t("home.green_zone_description")}</p>
             </CardHeader>
             <CardContent className="flex flex-col gap-6">
-              <p className="text-sm text-muted-foreground">{t("home.green_zone_description")}</p>
               <div className="flex items-center gap-6">
                 {TOOLS.map((tool) => (
                   <div key={tool.alt} className="flex size-14 items-center justify-center rounded-lg bg-muted p-2">
