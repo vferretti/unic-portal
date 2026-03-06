@@ -2,18 +2,11 @@ import { useTranslation } from "react-i18next";
 import { Trash2, ShoppingCart, Download } from "lucide-react";
 import ExcelJS from "exceljs";
 import { useCartContext } from "@/contexts/cart-context";
-import { PageHeader } from "@/components/ui/page-header";
-import { Empty } from "@/components/ui/empty";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { TextCell } from "@/components/ui/cells";
+import { PageHeader } from "@/components/base/page/page-header";
+import { Empty } from "@/components/base/page/empty";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/base/table/table";
+import { Button } from "@/components/base/ui/button";
+import { TextCell } from "@/components/base/table/cells";
 
 export default function Cart() {
   const { t, i18n } = useTranslation();
@@ -65,30 +58,17 @@ export default function Cart() {
           {isLoading ? (
             <p className="text-muted-foreground">{t("common.loading")}</p>
           ) : items.length === 0 ? (
-            <Empty
-              title={t("cart.empty_title")}
-              description={t("cart.empty_description")}
-            />
+            <Empty title={t("cart.empty_title")} description={t("cart.empty_description")} />
           ) : (
             <>
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-muted-foreground">
-                  {t("cart.item_count", { count: items.length })}
-                </span>
+                <span className="text-sm text-muted-foreground">{t("cart.item_count", { count: items.length })}</span>
                 <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleExport}
-                  >
+                  <Button variant="outline" size="sm" onClick={handleExport}>
                     <Download className="size-4 mr-1" />
                     {t("cart.export")}
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => clearCart()}
-                  >
+                  <Button variant="outline" size="sm" onClick={() => clearCart()}>
                     <Trash2 className="size-4 mr-1" />
                     {t("cart.clear")}
                   </Button>
@@ -113,9 +93,7 @@ export default function Cart() {
                         </span>
                       </TableCell>
                       <TableCell>
-                        <TextCell>
-                          {i18n.language === "fr" ? item.var_label_fr : item.var_label_en}
-                        </TextCell>
+                        <TextCell>{i18n.language === "fr" ? item.var_label_fr : item.var_label_en}</TextCell>
                       </TableCell>
                       <TableCell>
                         <TextCell>{item.tab_name}</TextCell>

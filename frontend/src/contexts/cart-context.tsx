@@ -18,10 +18,7 @@ const CartContext = createContext<CartContextValue | null>(null);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const cart = useCart();
 
-  const selectedVarIds = useMemo(
-    () => new Set(cart.items.map((item) => item.var_id)),
-    [cart.items],
-  );
+  const selectedVarIds = useMemo(() => new Set(cart.items.map((item) => item.var_id)), [cart.items]);
 
   const addVariables = useCallback(
     async (variables: DictVariable[]) => {
@@ -36,19 +33,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         })),
       });
     },
-    [cart.addItems],
+    [cart],
   );
 
   const removeVariables = useCallback(
     async (varIds: number[]) => {
       await cart.removeItems({ var_ids: varIds });
     },
-    [cart.removeItems],
+    [cart],
   );
 
   const clearCart = useCallback(async () => {
     await cart.clearCart();
-  }, [cart.clearCart]);
+  }, [cart]);
 
   const value = useMemo<CartContextValue>(
     () => ({
@@ -66,6 +63,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCartContext() {
   const ctx = useContext(CartContext);
   if (!ctx) throw new Error("useCartContext must be used within CartProvider");

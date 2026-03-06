@@ -1,12 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/base/table/table";
 import {
   TextCell,
   EmptyCell,
@@ -15,7 +8,7 @@ import {
   AnchorLinkCell,
   BadgeCell,
   TextTooltipCell,
-} from "@/components/ui/cells";
+} from "@/components/base/table/cells";
 
 function CellShowcase() {
   return (
@@ -32,38 +25,66 @@ function CellShowcase() {
         <TableBody>
           <TableRow>
             <TableCell className="font-medium">TextCell</TableCell>
-            <TableCell><TextCell>Hello world</TextCell></TableCell>
-            <TableCell><TextCell>{undefined}</TextCell></TableCell>
+            <TableCell>
+              <TextCell>Hello world</TextCell>
+            </TableCell>
+            <TableCell>
+              <TextCell>{undefined}</TextCell>
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">EmptyCell</TableCell>
-            <TableCell><EmptyCell /></TableCell>
-            <TableCell><EmptyCell /></TableCell>
+            <TableCell>
+              <EmptyCell />
+            </TableCell>
+            <TableCell>
+              <EmptyCell />
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">DateCell</TableCell>
-            <TableCell><DateCell date="2025-06-15T10:30:00" /></TableCell>
-            <TableCell><DateCell date={null} /></TableCell>
+            <TableCell>
+              <DateCell date="2025-06-15T10:30:00" />
+            </TableCell>
+            <TableCell>
+              <DateCell date={null} />
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">NumberCell</TableCell>
-            <TableCell><NumberCell value={1234.5} /></TableCell>
-            <TableCell><NumberCell value={undefined} /></TableCell>
+            <TableCell>
+              <NumberCell value={1234.5} />
+            </TableCell>
+            <TableCell>
+              <NumberCell value={undefined} />
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">AnchorLinkCell</TableCell>
-            <TableCell><AnchorLinkCell href="https://example.com">Example</AnchorLinkCell></TableCell>
-            <TableCell><AnchorLinkCell /></TableCell>
+            <TableCell>
+              <AnchorLinkCell href="https://example.com">Example</AnchorLinkCell>
+            </TableCell>
+            <TableCell>
+              <AnchorLinkCell />
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">BadgeCell</TableCell>
-            <TableCell><BadgeCell>Active</BadgeCell></TableCell>
-            <TableCell><BadgeCell>{undefined}</BadgeCell></TableCell>
+            <TableCell>
+              <BadgeCell>Active</BadgeCell>
+            </TableCell>
+            <TableCell>
+              <BadgeCell>{undefined}</BadgeCell>
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">TextTooltipCell</TableCell>
-            <TableCell><TextTooltipCell tooltipText="Extra info">Hover me</TextTooltipCell></TableCell>
-            <TableCell><TextTooltipCell>{undefined}</TextTooltipCell></TableCell>
+            <TableCell>
+              <TextTooltipCell tooltipText="Extra info">Hover me</TextTooltipCell>
+            </TableCell>
+            <TableCell>
+              <TextTooltipCell>{undefined}</TextTooltipCell>
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

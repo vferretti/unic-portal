@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Inbox, FileX } from "lucide-react";
-import { Empty } from "@/components/ui/empty";
+import { Empty } from "@/components/base/page/empty";
 
 const meta: Meta<typeof Empty> = {
   title: "Components/Empty",

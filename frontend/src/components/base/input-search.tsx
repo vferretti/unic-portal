@@ -1,11 +1,11 @@
-import { SearchIcon, XIcon } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { SearchIcon, XIcon } from "lucide-react";
+import { Input } from "@/components/base/ui/input";
 
 interface InputSearchProps {
-  value: string
-  onChange: (value: string) => void
-  placeholder?: string
-  className?: string
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  className?: string;
 }
 
 function InputSearch({ value, onChange, placeholder, className }: InputSearchProps) {
@@ -31,7 +31,7 @@ function InputSearch({ value, onChange, placeholder, className }: InputSearchPro
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export { InputSearch }
+export { InputSearch };

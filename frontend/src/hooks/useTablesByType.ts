@@ -3,8 +3,7 @@ import api from "@/lib/api";
 import type { DictTable } from "@/types/dict-table";
 import type { PaginatedResponse } from "@/types/paginated";
 
-const fetcher = (url: string) =>
-  api.get<PaginatedResponse<DictTable>>(url).then((res) => res.data);
+const fetcher = (url: string) => api.get<PaginatedResponse<DictTable>>(url).then((res) => res.data);
 
 /**
  * Fetches paginated dictionary tables filtered by resource type.
@@ -14,7 +13,15 @@ const fetcher = (url: string) =>
  */
 export function useTablesByType(
   type: string,
-  params: { pageIndex: number; pageSize: number; sortField: string; sortOrder: string; systems?: string[]; tables?: string[]; search?: string },
+  params: {
+    pageIndex: number;
+    pageSize: number;
+    sortField: string;
+    sortOrder: string;
+    systems?: string[];
+    tables?: string[];
+    search?: string;
+  },
 ) {
   let url = `/catalog/tables?type=${type}&page_index=${params.pageIndex}&page_size=${params.pageSize}&sort_field=${params.sortField}&sort_order=${params.sortOrder}`;
   if (params.systems?.length) {

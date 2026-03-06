@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from "storybook/actions";
-import { SortableHeader } from "@/components/ui/sortable-header";
+import { SortableHeader } from "@/components/base/table/sortable-header";
 
 const meta: Meta<typeof SortableHeader> = {
   title: "Components/SortableHeader",

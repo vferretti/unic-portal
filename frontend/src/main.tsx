@@ -10,7 +10,7 @@ import Catalog from "./routes/catalog";
 import CatalogExploration from "./routes/catalog-exploration";
 import Cart from "./routes/cart";
 import Home from "./routes/home";
-import { LandingPage } from "./components/ui/landing-page";
+import { LandingPage } from "./components/feature/landing-page";
 import { CartProvider } from "./contexts/cart-context";
 
 const router = createBrowserRouter([
@@ -77,5 +77,5 @@ createRoot(document.getElementById("root")!).render(
         <RouterProvider router={router} />
       </CartProvider>
     </ThemeProvider>
-  </StrictMode>
+  </StrictMode>,
 );

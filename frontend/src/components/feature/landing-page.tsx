@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/base/ui/button";
 
 export function LandingPage() {
   const navigate = useNavigate();
@@ -10,15 +10,8 @@ export function LandingPage() {
       {/* Image: mobile = full-bleed behind content (5% opacity + overlay). Desktop = left column, full opacity. */}
       <div className="absolute inset-0 z-0 opacity-5 xl:relative xl:z-auto xl:w-hero-column xl:shrink-0 xl:opacity-100">
         <div className="absolute inset-0 xl:relative xl:size-full">
-          <img
-            src="/landing-hero.png"
-            alt=""
-            className="absolute inset-0 size-full object-cover"
-          />
-          <div
-            className="absolute inset-0 bg-hero-overlay mix-blend-soft-light"
-            aria-hidden
-          />
+          <img src="/landing-hero.png" alt="" className="absolute inset-0 size-full object-cover" />
+          <div className="absolute inset-0 bg-hero-overlay mix-blend-soft-light" aria-hidden />
         </div>
       </div>
 
@@ -32,26 +25,16 @@ export function LandingPage() {
 
           {/* Copy */}
           <div className="flex flex-col gap-4">
-            <h1 className="text-2xl font-semibold text-white">
-              {t("landing.title")}
-            </h1>
-            <p className="text-base text-white">
-              {t("landing.description")}
-            </p>
+            <h1 className="text-2xl font-semibold text-white">{t("landing.title")}</h1>
+            <p className="text-base text-white">{t("landing.description")}</p>
           </div>
 
           {/* Buttons */}
           <div className="flex w-full justify-center gap-4 xl:justify-start">
-            <Button
-              size="lg"
-              onClick={() => navigate("/home")}
-            >
+            <Button size="lg" onClick={() => navigate("/home")}>
               {t("landing.login")}
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-            >
+            <Button variant="outline" size="lg">
               {t("landing.register")}
             </Button>
           </div>

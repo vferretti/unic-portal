@@ -1,10 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/base/ui/tabs";
 
 function TabsDemo() {
   return (
@@ -16,19 +11,13 @@ function TabsDemo() {
           <TabsTrigger value="variables">Variables</TabsTrigger>
         </TabsList>
         <TabsContent value="resources">
-          <p className="p-4 text-sm text-muted-foreground">
-            Resource list will go here.
-          </p>
+          <p className="p-4 text-sm text-muted-foreground">Resource list will go here.</p>
         </TabsContent>
         <TabsContent value="tables">
-          <p className="p-4 text-sm text-muted-foreground">
-            Table list will go here.
-          </p>
+          <p className="p-4 text-sm text-muted-foreground">Table list will go here.</p>
         </TabsContent>
         <TabsContent value="variables">
-          <p className="p-4 text-sm text-muted-foreground">
-            Variable list will go here.
-          </p>
+          <p className="p-4 text-sm text-muted-foreground">Variable list will go here.</p>
         </TabsContent>
       </Tabs>
     </div>

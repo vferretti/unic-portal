@@ -3,8 +3,7 @@ import api from "@/lib/api";
 import type { Resource } from "@/types/resource";
 import type { PaginatedResponse } from "@/types/paginated";
 
-const fetcher = (url: string) =>
-  api.get<PaginatedResponse<Resource>>(url).then((res) => res.data);
+const fetcher = (url: string) => api.get<PaginatedResponse<Resource>>(url).then((res) => res.data);
 
 /**
  * Fetches paginated resources filtered by resource type.
@@ -14,7 +13,14 @@ const fetcher = (url: string) =>
  */
 export function useResourcesByType(
   type: string,
-  params: { pageIndex: number; pageSize: number; sortField: string; sortOrder: string; systems?: string[]; search?: string },
+  params: {
+    pageIndex: number;
+    pageSize: number;
+    sortField: string;
+    sortOrder: string;
+    systems?: string[];
+    search?: string;
+  },
 ) {
   let url = `/catalog/resources?type=${type}&page_index=${params.pageIndex}&page_size=${params.pageSize}&sort_field=${params.sortField}&sort_order=${params.sortOrder}`;
   if (params.systems?.length) {

@@ -1,11 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { FolderOpen, BookOpen, ShoppingCart, ChevronDown, UserRound, LogOut } from "lucide-react";
-import { UserAvatar } from "@/components/ui/user-avatar";
+import { UserAvatar } from "@/components/layout/user-avatar";
 import { useCartContext } from "@/contexts/cart-context";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { LangSwitcher } from "@/components/ui/lang-switcher";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { LangSwitcher } from "@/components/layout/lang-switcher";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/base/ui/dropdown-menu";
 
 interface NavItem {
   label: string;
@@ -41,11 +41,7 @@ export function Navbar() {
   return (
     <nav className="flex items-center h-navbar px-6 border-b bg-navbar shadow-xs w-full text-slate-200">
       <Link to="/home" className="mr-6 flex items-center">
-        <img
-          src="/unic-logo-header.svg"
-          alt="UNIC"
-          className="h-7"
-        />
+        <img src="/unic-logo-white.svg" alt="UNIC" className="h-7" />
       </Link>
       <div className="flex items-center gap-1 flex-1">
         {navItems.map((item) => (

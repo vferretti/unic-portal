@@ -1,14 +1,14 @@
 interface HighlightTextProps {
-  text: string | null | undefined
-  highlight: string
+  text: string | null | undefined;
+  highlight: string;
 }
 
 function HighlightText({ text, highlight }: HighlightTextProps) {
-  if (!text) return null
-  if (!highlight.trim()) return <>{text}</>
+  if (!text) return null;
+  if (!highlight.trim()) return <>{text}</>;
 
-  const escaped = highlight.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-  const parts = text.split(new RegExp(`(${escaped})`, "gi"))
+  const escaped = highlight.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts = text.split(new RegExp(`(${escaped})`, "gi"));
 
   return (
     <>
@@ -22,7 +22,7 @@ function HighlightText({ text, highlight }: HighlightTextProps) {
         ),
       )}
     </>
-  )
+  );
 }
 
-export { HighlightText }
+export { HighlightText };

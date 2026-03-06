@@ -14,7 +14,9 @@ export interface DictVariable {
     tab_domain_en: string | null;
     tab_domain_fr: string | null;
   } | null;
-  var_from_source_systems: {
-    rs_name: string;
-  }[] | null;
+  var_from_source_systems:
+    | {
+        rs_name: string;
+      }[]
+    | null;
 }

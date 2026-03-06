@@ -14,20 +14,13 @@ import {
   getPaginationRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { PaginationBar } from "@/components/ui/pagination";
-import { SortableHeader } from "@/components/ui/sortable-header";
-import { TextCell, DateCell, BadgeCell } from "@/components/ui/cells";
-import { InputSearch } from "@/components/ui/input-search";
-import { HighlightText } from "@/components/ui/highlight-text";
-import { PageHeader } from "@/components/ui/page-header";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/base/table/table";
+import { PaginationBar } from "@/components/base/table/pagination";
+import { SortableHeader } from "@/components/base/table/sortable-header";
+import { TextCell, DateCell, BadgeCell } from "@/components/base/table/cells";
+import { InputSearch } from "@/components/base/input-search";
+import { HighlightText } from "@/components/base/highlight-text";
+import { PageHeader } from "@/components/base/page/page-header";
 import { useResources } from "@/hooks/useResources";
 import {
   getColumnPinningHeaderCN,
@@ -72,9 +65,7 @@ export default function Resources() {
     });
   }, [resources, search, i18n.language]);
 
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "rs_name", desc: false },
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: "rs_name", desc: false }]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -92,13 +83,7 @@ export default function Resources() {
         size: 200,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -118,13 +103,7 @@ export default function Resources() {
         size: 100,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -145,13 +124,7 @@ export default function Resources() {
         size: 120,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -173,13 +146,7 @@ export default function Resources() {
         size: 200,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -197,11 +164,7 @@ export default function Resources() {
         size: 80,
         enableSorting: false,
         enableResizing: false,
-        header: ({ column }) => (
-          <SortableHeader column={column}>
-            {t("resources.columns.dictionary")}
-          </SortableHeader>
-        ),
+        header: ({ column }) => <SortableHeader column={column}>{t("resources.columns.dictionary")}</SortableHeader>,
         cell: ({ row }) => {
           const route = RESOURCE_TYPE_ROUTE[row.original.rs_type];
           if (!route) return null;
@@ -221,13 +184,7 @@ export default function Resources() {
         size: 120,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -241,13 +198,7 @@ export default function Resources() {
         size: 500,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -287,97 +238,83 @@ export default function Resources() {
         description={t("resources.description", { count: filteredResources.length })}
       />
       <div className="p-8">
-      {isLoading && (
-        <p className="text-muted-foreground">{t("common.loading")}</p>
-      )}
-      {error && (
-        <p className="text-destructive">
-          {t("common.error", { message: error })}
-        </p>
-      )}
-      {!isLoading && !error && (
-        <div className="rounded-lg border bg-background p-6">
-          <InputSearch
-            value={search}
-            onChange={(v) => {
-              setSearch(v);
-              setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-            }}
-            placeholder={t("common.search_placeholder")}
-            className="mb-6 max-w-2xl"
-          />
-          <div className="text-sm text-muted-foreground mb-1">
-            {t("pagination.results", {
-              from: pagination.pageIndex * pagination.pageSize + 1,
-              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredResources.length),
-              total: filteredResources.length,
-            })}
+        {isLoading && <p className="text-muted-foreground">{t("common.loading")}</p>}
+        {error && <p className="text-destructive">{t("common.error", { message: error })}</p>}
+        {!isLoading && !error && (
+          <div className="rounded-lg border bg-background p-6">
+            <InputSearch
+              value={search}
+              onChange={(v) => {
+                setSearch(v);
+                setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+              }}
+              placeholder={t("common.search_placeholder")}
+              className="mb-6 max-w-2xl"
+            />
+            <div className="text-sm text-muted-foreground mb-1">
+              {t("pagination.results", {
+                from: pagination.pageIndex * pagination.pageSize + 1,
+                to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredResources.length),
+                total: filteredResources.length,
+              })}
+            </div>
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <TableHead
+                        key={header.id}
+                        className={getColumnPinningHeaderCN(header)}
+                        style={getColumnPinningHeaderStyle(header)}
+                      >
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                        {header.column.getCanResize() && (
+                          <div
+                            onDoubleClick={() => header.column.resetSize()}
+                            onMouseDown={header.getResizeHandler()}
+                            onTouchStart={header.getResizeHandler()}
+                            className={cn(
+                              "absolute top-0 right-0 h-full w-1 cursor-col-resize select-none touch-none bg-foreground/50 opacity-0 hover:opacity-50",
+                              header.column.getIsResizing() && "opacity-100",
+                            )}
+                          />
+                        )}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className={getColumnPinningCellCN(cell.column)}
+                        style={getColumnPinningCellStyle(cell.column)}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <PaginationBar
+              page={pagination.pageIndex + 1}
+              totalPages={table.getPageCount()}
+              totalResults={filteredResources.length}
+              pageSize={pagination.pageSize}
+              showResults={false}
+              onPageChange={(p) => table.setPageIndex(p - 1)}
+              onPageSizeChange={(size) => {
+                table.setPageSize(size);
+                table.setPageIndex(0);
+              }}
+            />
           </div>
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead
-                      key={header.id}
-                      className={getColumnPinningHeaderCN(header)}
-                      style={getColumnPinningHeaderStyle(header)}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                      {header.column.getCanResize() && (
-                        <div
-                          onDoubleClick={() => header.column.resetSize()}
-                          onMouseDown={header.getResizeHandler()}
-                          onTouchStart={header.getResizeHandler()}
-                          className={cn(
-                            "absolute top-0 right-0 h-full w-1 cursor-col-resize select-none touch-none bg-foreground/50 opacity-0 hover:opacity-50",
-                            header.column.getIsResizing() && "opacity-100",
-                          )}
-                        />
-                      )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={getColumnPinningCellCN(cell.column)}
-                      style={getColumnPinningCellStyle(cell.column)}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <PaginationBar
-            page={pagination.pageIndex + 1}
-            totalPages={table.getPageCount()}
-            totalResults={filteredResources.length}
-            pageSize={pagination.pageSize}
-            showResults={false}
-            onPageChange={(p) => table.setPageIndex(p - 1)}
-            onPageSizeChange={(size) => {
-              table.setPageSize(size);
-              table.setPageIndex(0);
-            }}
-          />
-        </div>
-      )}
+        )}
       </div>
     </>
   );

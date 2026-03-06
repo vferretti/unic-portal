@@ -19,9 +19,7 @@ export function getColumnPinningCellCN<T>(column: Column<T, unknown>) {
   );
 }
 
-export function getColumnPinningHeaderStyle<T>(
-  header: Header<T, unknown>,
-): React.CSSProperties {
+export function getColumnPinningHeaderStyle<T>(header: Header<T, unknown>): React.CSSProperties {
   const isPinned = header.column.getIsPinned();
   if (!isPinned) return { width: header.getSize() };
   return {
@@ -31,9 +29,7 @@ export function getColumnPinningHeaderStyle<T>(
   };
 }
 
-export function getColumnPinningCellStyle<T>(
-  column: Column<T, unknown>,
-): React.CSSProperties {
+export function getColumnPinningCellStyle<T>(column: Column<T, unknown>): React.CSSProperties {
   const isPinned = column.getIsPinned();
   if (!isPinned) return { width: column.getSize() };
   return {

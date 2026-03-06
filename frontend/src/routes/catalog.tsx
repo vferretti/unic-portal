@@ -1,25 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
-import { PageHeader } from "@/components/ui/page-header";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/base/page/page-header";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/base/ui/card";
+import { Badge } from "@/components/base/badges/badge";
+import { Button } from "@/components/base/ui/button";
 import { useCatalogStats } from "@/hooks/useCatalogStats";
 
-const CATEGORIES = [
-  "source_system",
-  "warehouse",
-  "research_project",
-  "eqp",
-] as const;
+const CATEGORIES = ["source_system", "warehouse", "research_project", "eqp"] as const;
 
 type CategoryType = (typeof CATEGORIES)[number];
 
@@ -37,14 +25,17 @@ const STAT_FIELDS: Record<string, "resource_count" | "table_count" | "variable_c
   variables: "variable_count",
 };
 
-const CATEGORY_COLORS: Record<CategoryType, {
-  badge: "secondary";
-  button: string;
-}> = {
-  source_system:    { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
-  warehouse:        { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
+const CATEGORY_COLORS: Record<
+  CategoryType,
+  {
+    badge: "secondary";
+    button: string;
+  }
+> = {
+  source_system: { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
+  warehouse: { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
   research_project: { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
-  eqp:              { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
+  eqp: { badge: "secondary", button: "bg-cta text-cta-foreground hover:bg-cta/90" },
 };
 
 const CATEGORY_ROUTES: Record<CategoryType, string> = {
@@ -60,10 +51,7 @@ export default function Catalog() {
 
   return (
     <>
-      <PageHeader
-        title={t("catalog.title")}
-        description={t("catalog.description")}
-      />
+      <PageHeader title={t("catalog.title")} description={t("catalog.description")} />
       <div className="p-8">
         {isLoading ? (
           <p className="text-muted-foreground">{t("common.loading")}</p>
@@ -79,23 +67,15 @@ export default function Catalog() {
               return (
                 <Card key={type}>
                   <CardHeader>
-                    <CardTitle className="text-lg">
-                      {t(`catalog.categories.${type}.title`)}
-                    </CardTitle>
+                    <CardTitle className="text-lg">{t(`catalog.categories.${type}.title`)}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CardDescription>
-                      {t(`catalog.categories.${type}.description`)}
-                    </CardDescription>
+                    <CardDescription>{t(`catalog.categories.${type}.description`)}</CardDescription>
                   </CardContent>
                   <CardFooter className="justify-between items-center">
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant={colors.badge}>
-                        {t(`catalog.stats.${label1}`, { count: count1 })}
-                      </Badge>
-                      <Badge variant={colors.badge}>
-                        {t(`catalog.stats.${label2}`, { count: count2 })}
-                      </Badge>
+                      <Badge variant={colors.badge}>{t(`catalog.stats.${label1}`, { count: count1 })}</Badge>
+                      <Badge variant={colors.badge}>{t(`catalog.stats.${label2}`, { count: count2 })}</Badge>
                     </div>
                     <Button variant="default" size="sm" className={colors.button} asChild>
                       <Link to={`/catalog/${CATEGORY_ROUTES[type]}`}>

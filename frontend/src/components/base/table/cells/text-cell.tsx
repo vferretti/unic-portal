@@ -7,8 +7,7 @@ interface TextCellProps {
 
 function TextCell({ children, isNumber }: TextCellProps) {
   if (!children && !isNumber) return <EmptyCell />;
-  if (isNumber && (children === undefined || children === null))
-    return <EmptyCell />;
+  if (isNumber && (children === undefined || children === null)) return <EmptyCell />;
   return <>{children}</>;
 }
 

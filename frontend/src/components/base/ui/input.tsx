@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Input({
   className,
@@ -8,7 +8,7 @@ function Input({
   startIcon,
   ...props
 }: React.ComponentProps<"input"> & {
-  startIcon?: React.ReactNode
+  startIcon?: React.ReactNode;
 }) {
   return (
     <div className="relative w-full">
@@ -28,7 +28,7 @@ function Input({
         {...props}
       />
     </div>
-  )
+  );
 }
 
-export { Input }
+export { Input };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/base/ui/button";
 
 export function LangSwitcher({ className }: { className?: string }) {
   const { i18n } = useTranslation();

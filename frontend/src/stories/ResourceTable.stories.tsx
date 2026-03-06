@@ -12,17 +12,10 @@ import {
   getPaginationRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { PaginationBar } from "@/components/ui/pagination";
-import { SortableHeader } from "@/components/ui/sortable-header";
-import { TextCell, DateCell, BadgeCell } from "@/components/ui/cells";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/base/table/table";
+import { PaginationBar } from "@/components/base/table/pagination";
+import { SortableHeader } from "@/components/base/table/sortable-header";
+import { TextCell, DateCell, BadgeCell } from "@/components/base/table/cells";
 import {
   getColumnPinningHeaderCN,
   getColumnPinningCellCN,
@@ -50,8 +43,7 @@ const resources: Resource[] = Array.from({ length: 45 }, (_, i) => ({
   rs_name: `Research Project ${i + 1}`,
   rs_title: `Research Project ${i + 1}`,
   rs_type: i % 3 === 0 ? "eqp" : "research_project",
-  rs_description_fr:
-    i % 3 === 0 ? null : `Description du projet de recherche ${i + 1}`,
+  rs_description_fr: i % 3 === 0 ? null : `Description du projet de recherche ${i + 1}`,
   rs_description_en: null,
   rs_project_pi: i % 4 === 0 ? null : `Dr. Researcher ${i + 1}`,
   rs_project_erb_id: null,
@@ -65,15 +57,12 @@ const resources: Resource[] = Array.from({ length: 45 }, (_, i) => ({
   rs_system_database_type: null,
   rs_system_collection_starting_year: null,
   rs_dict_current_version: null,
-  rs_last_update:
-    i % 5 === 0 ? null : `2025-${String((i % 12) + 1).padStart(2, "0")}-15`,
+  rs_last_update: i % 5 === 0 ? null : `2025-${String((i % 12) + 1).padStart(2, "0")}-15`,
   stat_etl: null,
 }));
 
 function ResourceTable() {
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "rs_name", desc: false },
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: "rs_name", desc: false }]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -91,13 +80,7 @@ function ResourceTable() {
         size: 200,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -115,13 +98,7 @@ function ResourceTable() {
         size: 100,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -142,13 +119,7 @@ function ResourceTable() {
         size: 120,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -162,44 +133,28 @@ function ResourceTable() {
         size: 200,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
             Principal Investigator
           </SortableHeader>
         ),
-        cell: ({ getValue }) => (
-          <TextCell>{getValue<string | null>() ?? undefined}</TextCell>
-        ),
+        cell: ({ getValue }) => <TextCell>{getValue<string | null>() ?? undefined}</TextCell>,
       },
       {
         accessorKey: "rs_description_fr",
         size: 500,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
             Description (FR)
           </SortableHeader>
         ),
-        cell: ({ getValue }) => (
-          <TextCell>{getValue<string | null>() ?? undefined}</TextCell>
-        ),
+        cell: ({ getValue }) => <TextCell>{getValue<string | null>() ?? undefined}</TextCell>,
       },
     ],
     [],
@@ -234,12 +189,7 @@ function ResourceTable() {
                   className={getColumnPinningHeaderCN(header)}
                   style={getColumnPinningHeaderStyle(header)}
                 >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   {header.column.getCanResize() && (
                     <div
                       onDoubleClick={() => header.column.resetSize()}
@@ -265,10 +215,7 @@ function ResourceTable() {
                   className={getColumnPinningCellCN(cell.column)}
                   style={getColumnPinningCellStyle(cell.column)}
                 >
-                  {flexRender(
-                    cell.column.columnDef.cell,
-                    cell.getContext(),
-                  )}
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
             </TableRow>

@@ -1,14 +1,9 @@
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { FolderOpen, BookOpen, ArrowRight } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { PageHeader } from "@/components/ui/page-header";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/base/ui/card";
+import { Button } from "@/components/base/ui/button";
+import { PageHeader } from "@/components/base/page/page-header";
 import { useCatalogStats } from "@/hooks/useCatalogStats";
 
 const TOOLS = [
@@ -38,10 +33,7 @@ export default function Home() {
 
   return (
     <>
-      <PageHeader
-        title={t("home.greeting")}
-        description={t("home.welcome_subtitle")}
-      />
+      <PageHeader title={t("home.greeting")} description={t("home.welcome_subtitle")} />
       <div className="p-8">
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -118,20 +110,11 @@ export default function Home() {
               <CardTitle className="text-lg">{t("home.green_zone_title")}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-6">
-              <p className="text-sm text-muted-foreground">
-                {t("home.green_zone_description")}
-              </p>
+              <p className="text-sm text-muted-foreground">{t("home.green_zone_description")}</p>
               <div className="flex items-center gap-6">
                 {TOOLS.map((tool) => (
-                  <div
-                    key={tool.alt}
-                    className="flex size-14 items-center justify-center rounded-lg bg-muted p-2"
-                  >
-                    <img
-                      src={tool.src}
-                      alt={tool.alt}
-                      className="h-10 object-contain"
-                    />
+                  <div key={tool.alt} className="flex size-14 items-center justify-center rounded-lg bg-muted p-2">
+                    <img src={tool.src} alt={tool.alt} className="h-10 object-contain" />
                   </div>
                 ))}
                 <Button className="bg-cta text-cta-foreground hover:bg-cta/90 ml-auto">

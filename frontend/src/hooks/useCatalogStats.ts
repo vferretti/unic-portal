@@ -11,8 +11,7 @@ export interface CatalogTypeStat {
 /** Map of resource type to its aggregate catalog statistics. */
 export type CatalogStats = Record<string, CatalogTypeStat>;
 
-const fetcher = (url: string) =>
-  api.get<CatalogStats>(url).then((res) => res.data);
+const fetcher = (url: string) => api.get<CatalogStats>(url).then((res) => res.data);
 
 /**
  * Fetches aggregate catalog statistics (resource/table/variable counts) grouped by type.

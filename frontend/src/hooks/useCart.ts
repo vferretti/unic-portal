@@ -1,11 +1,6 @@
 import useSWR from "swr";
 import api from "@/lib/api";
-import type {
-  CartResponse,
-  AddCartItemsRequest,
-  RemoveCartItemsRequest,
-  CartMutationResponse,
-} from "@/types/cart";
+import type { CartResponse, AddCartItemsRequest, RemoveCartItemsRequest, CartMutationResponse } from "@/types/cart";
 
 const cartFetcher = (url: string) => api.get<CartResponse>(url).then((r) => r.data);
 

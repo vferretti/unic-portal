@@ -1,8 +1,8 @@
 import type { Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowDownUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { ColumnHeaderActions } from "@/components/ui/column-header-actions";
+import { Button } from "@/components/base/ui/button";
+import { ColumnHeaderActions } from "@/components/base/table/column-header-actions";
 
 type SortDirection = "asc" | "desc" | null;
 
@@ -13,17 +13,10 @@ interface SortableHeaderProps<T = unknown> {
   column?: Column<T, unknown>;
 }
 
-function SortableHeader<T = unknown>({
-  children,
-  sortDirection,
-  onSort,
-  column,
-}: SortableHeaderProps<T>) {
+function SortableHeader<T = unknown>({ children, sortDirection, onSort, column }: SortableHeaderProps<T>) {
   return (
     <div className="flex items-center justify-between gap-1">
-      <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-        {children}
-      </span>
+      <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">{children}</span>
       <div className="flex items-center">
         {onSort && (
           <Button

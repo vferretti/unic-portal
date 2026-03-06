@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from "storybook/actions";
-import { PaginationBar } from "@/components/ui/pagination";
+import { PaginationBar } from "@/components/base/table/pagination";
 
 const meta: Meta<typeof PaginationBar> = {
   title: "Components/PaginationBar",

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useSearchParams, Navigate, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { BookOpen } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@/components/base/ui/checkbox";
 import { useCartContext } from "@/contexts/cart-context";
 import {
   type ColumnDef,
@@ -13,23 +13,16 @@ import {
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { PaginationBar } from "@/components/ui/pagination";
-import { SortableHeader } from "@/components/ui/sortable-header";
-import { TextCell, NumberCell, BadgeCell } from "@/components/ui/cells";
-import { InputSearch } from "@/components/ui/input-search";
-import { HighlightText } from "@/components/ui/highlight-text";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/base/table/table";
+import { PaginationBar } from "@/components/base/table/pagination";
+import { SortableHeader } from "@/components/base/table/sortable-header";
+import { TextCell, NumberCell, BadgeCell } from "@/components/base/table/cells";
+import { InputSearch } from "@/components/base/input-search";
+import { HighlightText } from "@/components/base/highlight-text";
 import { cn } from "@/lib/utils";
-import { Empty } from "@/components/ui/empty";
-import { PageHeader } from "@/components/ui/page-header";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Empty } from "@/components/base/page/empty";
+import { PageHeader } from "@/components/base/page/page-header";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/base/ui/tabs";
 import { useResourcesByType } from "@/hooks/useResourcesByType";
 import { useTablesByType } from "@/hooks/useTablesByType";
 import { useVariablesByType } from "@/hooks/useVariablesByType";
@@ -47,10 +40,18 @@ const ROUTE_TO_CATEGORY: Record<string, string> = {
 };
 
 const CATEGORY_TABS: Record<string, { tabs: string[]; resourceLabel: string; resourceColumnKey: string }> = {
-  source_system:    { tabs: ["resources", "tables", "variables"], resourceLabel: "systems",  resourceColumnKey: "resource" },
-  warehouse:        { tabs: ["tables", "variables"],              resourceLabel: "",         resourceColumnKey: "resource_warehouse" },
-  research_project: { tabs: ["resources", "tables", "variables"], resourceLabel: "projects", resourceColumnKey: "project" },
-  eqp:              { tabs: ["resources", "tables", "variables"], resourceLabel: "projects", resourceColumnKey: "project" },
+  source_system: {
+    tabs: ["resources", "tables", "variables"],
+    resourceLabel: "systems",
+    resourceColumnKey: "resource",
+  },
+  warehouse: { tabs: ["tables", "variables"], resourceLabel: "", resourceColumnKey: "resource_warehouse" },
+  research_project: {
+    tabs: ["resources", "tables", "variables"],
+    resourceLabel: "projects",
+    resourceColumnKey: "project",
+  },
+  eqp: { tabs: ["resources", "tables", "variables"], resourceLabel: "projects", resourceColumnKey: "project" },
 };
 
 export default function CatalogExploration() {
@@ -66,9 +67,7 @@ export default function CatalogExploration() {
     if (paramTab && tabConfig?.tabs.includes(paramTab)) return paramTab;
     return tabConfig?.tabs[0] ?? "tables";
   });
-  const [selectedSystem, setSelectedSystem] = useState<string | null>(
-    () => searchParams.get("resource"),
-  );
+  const [selectedSystem, setSelectedSystem] = useState<string | null>(() => searchParams.get("resource"));
   const [selectedTable, setSelectedTable] = useState<string | null>(null);
 
   const prevCategoryRef = useRef(category);
@@ -78,7 +77,7 @@ export default function CatalogExploration() {
     if (tabConfig) {
       const paramResource = searchParams.get("resource");
       const paramTab = searchParams.get("tab");
-      setSelectedSystem(paramResource);
+      setSelectedSystem(paramResource); // eslint-disable-line react-hooks/set-state-in-effect
       setSelectedTable(null);
       setActiveTab(paramTab && tabConfig.tabs.includes(paramTab) ? paramTab : tabConfig.tabs[0]);
       if (!paramResource && !paramTab) {
@@ -87,8 +86,8 @@ export default function CatalogExploration() {
     }
   }, [category]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const systems = useMemo(() => selectedSystem ? [selectedSystem] : undefined, [selectedSystem]);
-  const tables = useMemo(() => selectedTable ? [selectedTable] : undefined, [selectedTable]);
+  const systems = useMemo(() => (selectedSystem ? [selectedSystem] : undefined), [selectedSystem]);
+  const tables = useMemo(() => (selectedTable ? [selectedTable] : undefined), [selectedTable]);
   const { stats } = useCatalogStats(systems, tables);
   const typeStat = category ? stats[category] : undefined;
 
@@ -163,7 +162,8 @@ export default function CatalogExploration() {
             {(selectedSystem || selectedTable) && (
               <div className="ml-auto flex items-center gap-2">
                 <span className="text-muted-foreground">
-                  <span className="font-bold">{t("catalog.exploration.filters.filtered_by")}</span> {selectedTable ?? selectedSystem}
+                  <span className="font-bold">{t("catalog.exploration.filters.filtered_by")}</span>{" "}
+                  {selectedTable ?? selectedSystem}
                 </span>
                 <button
                   onClick={handleClearFilter}
@@ -176,19 +176,22 @@ export default function CatalogExploration() {
           </nav>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <div className="border-b mb-4">
-            <TabsList variant="line" className="pb-0 gap-4">
-              {tabConfig?.tabs.includes("resources") && (
-                <TabsTrigger value="resources">
-                  {t(`catalog.tabs.${tabConfig.resourceLabel}`)}{typeStat ? ` (${typeStat.resource_count.toLocaleString()})` : ""}
+              <TabsList variant="line" className="pb-0 gap-4">
+                {tabConfig?.tabs.includes("resources") && (
+                  <TabsTrigger value="resources">
+                    {t(`catalog.tabs.${tabConfig.resourceLabel}`)}
+                    {typeStat ? ` (${typeStat.resource_count.toLocaleString()})` : ""}
+                  </TabsTrigger>
+                )}
+                <TabsTrigger value="tables">
+                  {t("catalog.tabs.tables")}
+                  {typeStat ? ` (${typeStat.table_count.toLocaleString()})` : ""}
                 </TabsTrigger>
-              )}
-              <TabsTrigger value="tables">
-                {t("catalog.tabs.tables")}{typeStat ? ` (${typeStat.table_count.toLocaleString()})` : ""}
-              </TabsTrigger>
-              <TabsTrigger value="variables">
-                {t("catalog.tabs.variables")}{typeStat ? ` (${typeStat.variable_count.toLocaleString()})` : ""}
-              </TabsTrigger>
-            </TabsList>
+                <TabsTrigger value="variables">
+                  {t("catalog.tabs.variables")}
+                  {typeStat ? ` (${typeStat.variable_count.toLocaleString()})` : ""}
+                </TabsTrigger>
+              </TabsList>
             </div>
             {tabConfig?.tabs.includes("resources") && (
               <TabsContent value="resources">
@@ -196,7 +199,12 @@ export default function CatalogExploration() {
               </TabsContent>
             )}
             <TabsContent value="tables">
-              <DictTableTable category={category} systems={systems} tables={tables} onTableDrillDown={handleTableDrillDown} />
+              <DictTableTable
+                category={category}
+                systems={systems}
+                tables={tables}
+                onTableDrillDown={handleTableDrillDown}
+              />
             </TabsContent>
             <TabsContent value="variables">
               <DictVariableTable category={category} systems={systems} tables={tables} />
@@ -215,12 +223,18 @@ const RESOURCE_SORT_FIELDS: Record<string, string> = {
   variable_count: "stat_etl.variable_count",
 };
 
-function ResourceTable({ category, systems, onDrillDown }: { category: string; systems?: string[]; onDrillDown: (systemName: string, tab: "tables" | "variables") => void }) {
+function ResourceTable({
+  category,
+  systems,
+  onDrillDown,
+}: {
+  category: string;
+  systems?: string[];
+  onDrillDown: (systemName: string, tab: "tables" | "variables") => void;
+}) {
   const { t, i18n } = useTranslation();
 
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "rs_name", desc: false },
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: "rs_name", desc: false }]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,
@@ -258,13 +272,7 @@ function ResourceTable({ category, systems, onDrillDown }: { category: string; s
         size: 120,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -297,13 +305,7 @@ function ResourceTable({ category, systems, onDrillDown }: { category: string; s
         size: 70,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -329,13 +331,7 @@ function ResourceTable({ category, systems, onDrillDown }: { category: string; s
         size: 70,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -386,78 +382,67 @@ function ResourceTable({ category, systems, onDrillDown }: { category: string; s
       {isLoading && data.length === 0 ? (
         <p className="text-muted-foreground mt-4">{t("common.loading")}</p>
       ) : error ? (
-        <p className="text-destructive mt-4">
-          {t("common.error", { message: error })}
-        </p>
+        <p className="text-destructive mt-4">{t("common.error", { message: error })}</p>
       ) : data.length === 0 ? (
-        <Empty
-          title={t("table.no_result")}
-          description={t("table.no_result_description")}
-        />
-      ) : <>
-      <div className="text-sm text-muted-foreground mb-1">
-        {t("pagination.results", {
-          from: pagination.pageIndex * pagination.pageSize + 1,
-          to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
-          total,
-        })}
-      </div>
-      <Table style={{ tableLayout: "fixed" }}>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} style={{ width: header.getSize(), position: "relative" }}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
+        <Empty title={t("table.no_result")} description={t("table.no_result_description")} />
+      ) : (
+        <>
+          <div className="text-sm text-muted-foreground mb-1">
+            {t("pagination.results", {
+              from: pagination.pageIndex * pagination.pageSize + 1,
+              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
+              total,
+            })}
+          </div>
+          <Table style={{ tableLayout: "fixed" }}>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} style={{ width: header.getSize(), position: "relative" }}>
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.column.getCanResize() && (
+                        <div
+                          onDoubleClick={() => header.column.resetSize()}
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className={cn(
+                            "absolute top-0 right-0 h-full w-1 cursor-col-resize select-none touch-none bg-foreground/50 opacity-0 hover:opacity-50",
+                            header.column.getIsResizing() && "opacity-100",
+                          )}
+                        />
                       )}
-                  {header.column.getCanResize() && (
-                    <div
-                      onDoubleClick={() => header.column.resetSize()}
-                      onMouseDown={header.getResizeHandler()}
-                      onTouchStart={header.getResizeHandler()}
-                      className={cn(
-                        "absolute top-0 right-0 h-full w-1 cursor-col-resize select-none touch-none bg-foreground/50 opacity-0 hover:opacity-50",
-                        header.column.getIsResizing() && "opacity-100",
-                      )}
-                    />
-                  )}
-                </TableHead>
+                    </TableHead>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
-                  {flexRender(
-                    cell.column.columnDef.cell,
-                    cell.getContext(),
-                  )}
-                </TableCell>
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <PaginationBar
-        page={pagination.pageIndex + 1}
-        totalPages={table.getPageCount()}
-        totalResults={total}
-        pageSize={pagination.pageSize}
-        showResults={false}
-        onPageChange={(p) => table.setPageIndex(p - 1)}
-        onPageSizeChange={(size) => {
-          table.setPageSize(size);
-          table.setPageIndex(0);
-        }}
-      />
-      </>}
+            </TableBody>
+          </Table>
+          <PaginationBar
+            page={pagination.pageIndex + 1}
+            totalPages={table.getPageCount()}
+            totalResults={total}
+            pageSize={pagination.pageSize}
+            showResults={false}
+            onPageChange={(p) => table.setPageIndex(p - 1)}
+            onPageSizeChange={(size) => {
+              table.setPageSize(size);
+              table.setPageIndex(0);
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
@@ -469,12 +454,20 @@ const TABLE_SORT_FIELDS: Record<string, string> = {
   variable_count: "stat_etl.variable_count",
 };
 
-function DictTableTable({ category, systems, tables, onTableDrillDown }: { category: string; systems?: string[]; tables?: string[]; onTableDrillDown: (tableName: string, systemName: string) => void }) {
+function DictTableTable({
+  category,
+  systems,
+  tables,
+  onTableDrillDown,
+}: {
+  category: string;
+  systems?: string[];
+  tables?: string[];
+  onTableDrillDown: (tableName: string, systemName: string) => void;
+}) {
   const { t } = useTranslation();
 
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "tab_name", desc: false },
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: "tab_name", desc: false }]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,
@@ -514,13 +507,7 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
         size: 200,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -543,13 +530,7 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
         size: 150,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -569,13 +550,7 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
         size: 150,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -594,13 +569,7 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
         size: 100,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -652,78 +621,67 @@ function DictTableTable({ category, systems, tables, onTableDrillDown }: { categ
       {isLoading && data.length === 0 ? (
         <p className="text-muted-foreground mt-4">{t("common.loading")}</p>
       ) : error ? (
-        <p className="text-destructive mt-4">
-          {t("common.error", { message: error })}
-        </p>
+        <p className="text-destructive mt-4">{t("common.error", { message: error })}</p>
       ) : data.length === 0 ? (
-        <Empty
-          title={t("table.no_result")}
-          description={t("table.no_result_description")}
-        />
-      ) : <>
-      <div className="text-sm text-muted-foreground mb-1">
-        {t("pagination.results", {
-          from: pagination.pageIndex * pagination.pageSize + 1,
-          to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
-          total,
-        })}
-      </div>
-      <Table style={{ tableLayout: "fixed" }}>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} style={{ width: header.getSize(), position: "relative" }}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
+        <Empty title={t("table.no_result")} description={t("table.no_result_description")} />
+      ) : (
+        <>
+          <div className="text-sm text-muted-foreground mb-1">
+            {t("pagination.results", {
+              from: pagination.pageIndex * pagination.pageSize + 1,
+              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
+              total,
+            })}
+          </div>
+          <Table style={{ tableLayout: "fixed" }}>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} style={{ width: header.getSize(), position: "relative" }}>
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.column.getCanResize() && (
+                        <div
+                          onDoubleClick={() => header.column.resetSize()}
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className={cn(
+                            "absolute top-0 right-0 h-full w-1 cursor-col-resize select-none touch-none bg-foreground/50 opacity-0 hover:opacity-50",
+                            header.column.getIsResizing() && "opacity-100",
+                          )}
+                        />
                       )}
-                  {header.column.getCanResize() && (
-                    <div
-                      onDoubleClick={() => header.column.resetSize()}
-                      onMouseDown={header.getResizeHandler()}
-                      onTouchStart={header.getResizeHandler()}
-                      className={cn(
-                        "absolute top-0 right-0 h-full w-1 cursor-col-resize select-none touch-none bg-foreground/50 opacity-0 hover:opacity-50",
-                        header.column.getIsResizing() && "opacity-100",
-                      )}
-                    />
-                  )}
-                </TableHead>
+                    </TableHead>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
-                  {flexRender(
-                    cell.column.columnDef.cell,
-                    cell.getContext(),
-                  )}
-                </TableCell>
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <PaginationBar
-        page={pagination.pageIndex + 1}
-        totalPages={table.getPageCount()}
-        totalResults={total}
-        pageSize={pagination.pageSize}
-        showResults={false}
-        onPageChange={(p) => table.setPageIndex(p - 1)}
-        onPageSizeChange={(size) => {
-          table.setPageSize(size);
-          table.setPageIndex(0);
-        }}
-      />
-      </>}
+            </TableBody>
+          </Table>
+          <PaginationBar
+            page={pagination.pageIndex + 1}
+            totalPages={table.getPageCount()}
+            totalResults={total}
+            pageSize={pagination.pageSize}
+            showResults={false}
+            onPageChange={(p) => table.setPageIndex(p - 1)}
+            onPageSizeChange={(size) => {
+              table.setPageSize(size);
+              table.setPageIndex(0);
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
@@ -748,9 +706,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
   const { t, i18n } = useTranslation();
   const { selectedVarIds, addVariables, removeVariables } = useCartContext();
 
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "var_name", desc: false },
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: "var_name", desc: false }]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,
@@ -813,13 +769,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         size: 200,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -852,13 +802,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         size: 150,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -875,13 +819,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         size: 150,
         header: ({ column }) => (
           <SortableHeader
-            sortDirection={
-              column.getIsSorted() === "asc"
-                ? "asc"
-                : column.getIsSorted() === "desc"
-                  ? "desc"
-                  : null
-            }
+            sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
             onSort={column.getToggleSortingHandler()}
             column={column}
           >
@@ -897,13 +835,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
       size: 120,
       header: ({ column }) => (
         <SortableHeader
-          sortDirection={
-            column.getIsSorted() === "asc"
-              ? "asc"
-              : column.getIsSorted() === "desc"
-                ? "desc"
-                : null
-          }
+          sortDirection={column.getIsSorted() === "asc" ? "asc" : column.getIsSorted() === "desc" ? "desc" : null}
           onSort={column.getToggleSortingHandler()}
           column={column}
         >
@@ -912,11 +844,7 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
       ),
       cell: ({ getValue }) => {
         const type = getValue<string | null>();
-        return (
-          <BadgeCell variant={type ? VARIABLE_TYPE_BADGE[type] ?? "secondary" : undefined}>
-            {type}
-          </BadgeCell>
-        );
+        return <BadgeCell variant={type ? (VARIABLE_TYPE_BADGE[type] ?? "secondary") : undefined}>{type}</BadgeCell>;
       },
     });
     if (category !== "source_system") {
@@ -977,78 +905,67 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
       {isLoading && data.length === 0 ? (
         <p className="text-muted-foreground mt-4">{t("common.loading")}</p>
       ) : error ? (
-        <p className="text-destructive mt-4">
-          {t("common.error", { message: error })}
-        </p>
+        <p className="text-destructive mt-4">{t("common.error", { message: error })}</p>
       ) : data.length === 0 ? (
-        <Empty
-          title={t("table.no_result")}
-          description={t("table.no_result_description")}
-        />
-      ) : <>
-      <div className="text-sm text-muted-foreground mb-1">
-        {t("pagination.results", {
-          from: pagination.pageIndex * pagination.pageSize + 1,
-          to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
-          total,
-        })}
-      </div>
-      <Table style={{ tableLayout: "fixed" }}>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} style={{ width: header.getSize(), position: "relative" }}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
+        <Empty title={t("table.no_result")} description={t("table.no_result_description")} />
+      ) : (
+        <>
+          <div className="text-sm text-muted-foreground mb-1">
+            {t("pagination.results", {
+              from: pagination.pageIndex * pagination.pageSize + 1,
+              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
+              total,
+            })}
+          </div>
+          <Table style={{ tableLayout: "fixed" }}>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} style={{ width: header.getSize(), position: "relative" }}>
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.column.getCanResize() && (
+                        <div
+                          onDoubleClick={() => header.column.resetSize()}
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className={cn(
+                            "absolute top-0 right-0 h-full w-1 cursor-col-resize select-none touch-none bg-foreground/50 opacity-0 hover:opacity-50",
+                            header.column.getIsResizing() && "opacity-100",
+                          )}
+                        />
                       )}
-                  {header.column.getCanResize() && (
-                    <div
-                      onDoubleClick={() => header.column.resetSize()}
-                      onMouseDown={header.getResizeHandler()}
-                      onTouchStart={header.getResizeHandler()}
-                      className={cn(
-                        "absolute top-0 right-0 h-full w-1 cursor-col-resize select-none touch-none bg-foreground/50 opacity-0 hover:opacity-50",
-                        header.column.getIsResizing() && "opacity-100",
-                      )}
-                    />
-                  )}
-                </TableHead>
+                    </TableHead>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
-                  {flexRender(
-                    cell.column.columnDef.cell,
-                    cell.getContext(),
-                  )}
-                </TableCell>
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <PaginationBar
-        page={pagination.pageIndex + 1}
-        totalPages={table.getPageCount()}
-        totalResults={total}
-        pageSize={pagination.pageSize}
-        showResults={false}
-        onPageChange={(p) => table.setPageIndex(p - 1)}
-        onPageSizeChange={(size) => {
-          table.setPageSize(size);
-          table.setPageIndex(0);
-        }}
-      />
-      </>}
+            </TableBody>
+          </Table>
+          <PaginationBar
+            page={pagination.pageIndex + 1}
+            totalPages={table.getPageCount()}
+            totalResults={total}
+            pageSize={pagination.pageSize}
+            showResults={false}
+            onPageChange={(p) => table.setPageIndex(p - 1)}
+            onPageSizeChange={(size) => {
+              table.setPageSize(size);
+              table.setPageIndex(0);
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
