@@ -9,7 +9,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon-xs"
-      className="text-slate-300 hover:bg-white/10 hover:text-white"
+      className="text-navbar-muted hover:bg-navbar-accent hover:text-navbar-active"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       <Moon className="size-4 scale-100 dark:scale-0 transition-transform" />

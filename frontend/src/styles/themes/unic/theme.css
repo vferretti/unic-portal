@@ -58,6 +58,10 @@
 
   /* Navbar */
   --navbar: var(--color-radiant-950);
+  --navbar-foreground: var(--color-slate-200);
+  --navbar-muted: var(--color-slate-300);
+  --navbar-accent: rgb(255 255 255 / 0.1);
+  --navbar-active: var(--color-white);
 
   /* CTA buttons */
   --cta: var(--color-radiant-700);
@@ -121,6 +125,10 @@
 
   /* Navbar */
   --navbar: var(--color-slate-900);
+  --navbar-foreground: var(--color-slate-200);
+  --navbar-muted: var(--color-slate-300);
+  --navbar-accent: rgb(255 255 255 / 0.1);
+  --navbar-active: var(--color-white);
 
   /* CTA buttons */
   --cta: var(--color-radiant-200);

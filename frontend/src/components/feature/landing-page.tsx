@@ -25,8 +25,8 @@ export function LandingPage() {
 
           {/* Copy */}
           <div className="flex flex-col gap-4">
-            <h1 className="text-2xl font-semibold text-white">{t("landing.title")}</h1>
-            <p className="text-base text-white">{t("landing.description")}</p>
+            <h1 className="text-2xl font-semibold text-hero-foreground">{t("landing.title")}</h1>
+            <p className="text-base text-hero-foreground">{t("landing.description")}</p>
           </div>
 
           {/* Buttons */}

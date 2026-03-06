@@ -240,6 +240,10 @@
   --color-hero-foreground: var(--hero-foreground);
   --color-hero-overlay: var(--hero-overlay);
   --color-navbar: var(--navbar);
+  --color-navbar-foreground: var(--navbar-foreground);
+  --color-navbar-muted: var(--navbar-muted);
+  --color-navbar-accent: var(--navbar-accent);
+  --color-navbar-active: var(--navbar-active);
   --color-cta: var(--cta);
   --color-cta-foreground: var(--cta-foreground);
   --color-highlight: var(--highlight);

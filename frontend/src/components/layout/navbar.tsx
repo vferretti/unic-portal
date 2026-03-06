@@ -39,7 +39,7 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="flex items-center h-navbar px-6 border-b bg-navbar shadow-xs w-full text-slate-200">
+    <nav className="flex items-center h-navbar px-6 border-b bg-navbar shadow-xs w-full text-navbar-foreground">
       <Link to="/home" className="mr-6 flex items-center">
         <img src="/unic-logo-white.svg" alt="UNIC" className="h-7" />
       </Link>
@@ -49,8 +49,8 @@ export function Navbar() {
             key={item.to}
             to={item.to}
             className={cn(
-              "inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm text-slate-300 transition-colors hover:bg-white/10 hover:text-white",
-              location.pathname === item.to && "text-white",
+              "inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm text-navbar-muted transition-colors hover:bg-navbar-accent hover:text-navbar-active",
+              location.pathname === item.to && "text-navbar-active",
             )}
           >
             {item.icon}
@@ -62,8 +62,8 @@ export function Navbar() {
         <Link
           to="/cart"
           className={cn(
-            "relative inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-sm text-slate-300 transition-colors hover:bg-white/10 hover:text-white",
-            location.pathname === "/cart" && "text-white",
+            "relative inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-sm text-navbar-muted transition-colors hover:bg-navbar-accent hover:text-navbar-active",
+            location.pathname === "/cart" && "text-navbar-active",
           )}
           title={t("navbar.cart")}
         >
@@ -75,10 +75,10 @@ export function Navbar() {
           )}
         </Link>
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2 rounded-md px-2 py-1 text-sm hover:bg-white/10 transition-colors outline-none cursor-pointer">
+          <DropdownMenuTrigger className="flex items-center gap-2 rounded-md px-2 py-1 text-sm hover:bg-navbar-accent transition-colors outline-none cursor-pointer">
             <UserAvatar userId={FAKE_USER.id} name={FAKE_USER.name} />
             <span className="font-medium">{FAKE_USER.name}</span>
-            <ChevronDown className="size-3.5 text-slate-400" />
+            <ChevronDown className="size-3.5 text-navbar-muted" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-64">
             <DropdownMenuLabel className="font-normal text-muted-foreground">
