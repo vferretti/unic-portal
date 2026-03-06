@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import EmptyCell from "./empty-cell";
 
 interface NumberCellProps {
@@ -6,11 +7,12 @@ interface NumberCellProps {
 }
 
 function NumberCell({ value, fractionDigits = 2 }: NumberCellProps) {
+  const { i18n } = useTranslation();
   if (value === undefined) return <EmptyCell />;
 
   return (
     <span>
-      {value.toLocaleString(undefined, {
+      {value.toLocaleString(i18n.language, {
         minimumFractionDigits: fractionDigits,
         maximumFractionDigits: fractionDigits,
       })}

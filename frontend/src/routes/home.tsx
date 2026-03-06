@@ -14,7 +14,7 @@ const TOOLS = [
 ];
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { stats } = useCatalogStats();
 
   const researchCount = stats.research_project?.resource_count ?? 0;
@@ -80,23 +80,23 @@ export default function Home() {
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <div className="text-3xl font-bold">{researchCount.toLocaleString()}</div>
+                    <div className="text-3xl font-bold">{researchCount.toLocaleString(i18n.language)}</div>
                     <div className="text-sm text-muted-foreground">{t("home.stats_label_research_projects")}</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold">{eqpCount.toLocaleString()}</div>
+                    <div className="text-3xl font-bold">{eqpCount.toLocaleString(i18n.language)}</div>
                     <div className="text-sm text-muted-foreground">{t("home.stats_label_eqp_projects")}</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold">{systemCount.toLocaleString()}</div>
+                    <div className="text-3xl font-bold">{systemCount.toLocaleString(i18n.language)}</div>
                     <div className="text-sm text-muted-foreground">{t("home.stats_label_systems")}</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold">{tableCount.toLocaleString()}</div>
+                    <div className="text-3xl font-bold">{tableCount.toLocaleString(i18n.language)}</div>
                     <div className="text-sm text-muted-foreground">{t("home.stats_label_tables")}</div>
                   </div>
                   <div className="col-span-2">
-                    <div className="text-3xl font-bold">{variableCount.toLocaleString()}</div>
+                    <div className="text-3xl font-bold">{variableCount.toLocaleString(i18n.language)}</div>
                     <div className="text-sm text-muted-foreground">{t("home.stats_label_variables")}</div>
                   </div>
                 </div>

@@ -46,7 +46,7 @@ const CATEGORY_ROUTES: Record<CategoryType, string> = {
 };
 
 export default function Catalog() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { stats, isLoading } = useCatalogStats();
 
   return (
@@ -74,8 +74,12 @@ export default function Catalog() {
                   </CardContent>
                   <CardFooter className="justify-between items-center">
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant={colors.badge}>{t(`catalog.stats.${label1}`, { count: count1 })}</Badge>
-                      <Badge variant={colors.badge}>{t(`catalog.stats.${label2}`, { count: count2 })}</Badge>
+                      <Badge variant={colors.badge}>
+                        {t(`catalog.stats.${label1}`, { count: count1.toLocaleString(i18n.language) })}
+                      </Badge>
+                      <Badge variant={colors.badge}>
+                        {t(`catalog.stats.${label2}`, { count: count2.toLocaleString(i18n.language) })}
+                      </Badge>
                     </div>
                     <Button variant="default" size="sm" className={colors.button} asChild>
                       <Link to={`/catalog/${CATEGORY_ROUTES[type]}`}>

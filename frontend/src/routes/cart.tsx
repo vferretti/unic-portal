@@ -204,9 +204,11 @@ export default function Cart() {
               <div className="flex items-center justify-between mb-1">
                 <span className="text-sm text-muted-foreground">
                   {t("pagination.results", {
-                    from: pagination.pageIndex * pagination.pageSize + 1,
-                    to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredItems.length),
-                    total: filteredItems.length,
+                    from: (pagination.pageIndex * pagination.pageSize + 1).toLocaleString(i18n.language),
+                    to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredItems.length).toLocaleString(
+                      i18n.language,
+                    ),
+                    total: filteredItems.length.toLocaleString(i18n.language),
                   })}
                 </span>
                 <div className="flex gap-2">

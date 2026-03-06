@@ -56,7 +56,7 @@ const CATEGORY_TABS: Record<string, { tabs: string[]; resourceLabel: string; res
 
 export default function CatalogExploration() {
   const { type } = useParams<{ type: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const category = type ? ROUTE_TO_CATEGORY[type] : undefined;
@@ -180,16 +180,16 @@ export default function CatalogExploration() {
                 {tabConfig?.tabs.includes("resources") && (
                   <TabsTrigger value="resources">
                     {t(`catalog.tabs.${tabConfig.resourceLabel}`)}
-                    {typeStat ? ` (${typeStat.resource_count.toLocaleString()})` : ""}
+                    {typeStat ? ` (${typeStat.resource_count.toLocaleString(i18n.language)})` : ""}
                   </TabsTrigger>
                 )}
                 <TabsTrigger value="tables">
                   {t("catalog.tabs.tables")}
-                  {typeStat ? ` (${typeStat.table_count.toLocaleString()})` : ""}
+                  {typeStat ? ` (${typeStat.table_count.toLocaleString(i18n.language)})` : ""}
                 </TabsTrigger>
                 <TabsTrigger value="variables">
                   {t("catalog.tabs.variables")}
-                  {typeStat ? ` (${typeStat.variable_count.toLocaleString()})` : ""}
+                  {typeStat ? ` (${typeStat.variable_count.toLocaleString(i18n.language)})` : ""}
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -320,7 +320,7 @@ function ResourceTable({
               className="text-primary underline cursor-pointer hover:no-underline"
               onClick={() => onDrillDown(row.original.rs_name, "tables")}
             >
-              {count.toLocaleString()}
+              {count.toLocaleString(i18n.language)}
             </button>
           );
         },
@@ -346,7 +346,7 @@ function ResourceTable({
               className="text-primary underline cursor-pointer hover:no-underline"
               onClick={() => onDrillDown(row.original.rs_name, "variables")}
             >
-              {count.toLocaleString()}
+              {count.toLocaleString(i18n.language)}
             </button>
           );
         },
@@ -389,9 +389,9 @@ function ResourceTable({
         <>
           <div className="text-sm text-muted-foreground mb-1">
             {t("pagination.results", {
-              from: pagination.pageIndex * pagination.pageSize + 1,
-              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
-              total,
+              from: (pagination.pageIndex * pagination.pageSize + 1).toLocaleString(i18n.language),
+              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total).toLocaleString(i18n.language),
+              total: total.toLocaleString(i18n.language),
             })}
           </div>
           <Table style={{ tableLayout: "fixed" }}>
@@ -585,7 +585,7 @@ function DictTableTable({
               className="text-primary underline cursor-pointer hover:no-underline"
               onClick={() => onTableDrillDown(row.original.tab_name, systemName)}
             >
-              {count.toLocaleString()}
+              {count.toLocaleString(i18n.language)}
             </button>
           );
         },
@@ -628,9 +628,9 @@ function DictTableTable({
         <>
           <div className="text-sm text-muted-foreground mb-1">
             {t("pagination.results", {
-              from: pagination.pageIndex * pagination.pageSize + 1,
-              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
-              total,
+              from: (pagination.pageIndex * pagination.pageSize + 1).toLocaleString(i18n.language),
+              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total).toLocaleString(i18n.language),
+              total: total.toLocaleString(i18n.language),
             })}
           </div>
           <Table style={{ tableLayout: "fixed" }}>
@@ -929,9 +929,9 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         <>
           <div className="text-sm text-muted-foreground mb-1">
             {t("pagination.results", {
-              from: pagination.pageIndex * pagination.pageSize + 1,
-              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total),
-              total,
+              from: (pagination.pageIndex * pagination.pageSize + 1).toLocaleString(i18n.language),
+              to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, total).toLocaleString(i18n.language),
+              total: total.toLocaleString(i18n.language),
             })}
           </div>
           <Table style={{ tableLayout: "fixed" }}>

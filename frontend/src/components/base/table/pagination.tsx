@@ -25,9 +25,10 @@ function PaginationBar({
   showResults?: boolean;
   className?: string;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const from = (page - 1) * pageSize + 1;
   const to = Math.min(page * pageSize, totalResults);
+  const lang = i18n.language;
 
   return (
     <div
@@ -35,7 +36,11 @@ function PaginationBar({
     >
       {showResults && (
         <div className="text-sm text-muted-foreground">
-          {t("pagination.results", { from, to, total: totalResults })}
+          {t("pagination.results", {
+            from: from.toLocaleString(lang),
+            to: to.toLocaleString(lang),
+            total: totalResults.toLocaleString(lang),
+          })}
         </div>
       )}
       <div className="flex items-center gap-2">

@@ -240,7 +240,7 @@ export default function Resources() {
     <>
       <PageHeader
         title={t("resources.title")}
-        description={t("resources.description", { count: filteredResources.length })}
+        description={t("resources.description", { count: filteredResources.length.toLocaleString(i18n.language) })}
       />
       <div className="p-8">
         {isLoading && <p className="text-muted-foreground">{t("common.loading")}</p>}
@@ -258,9 +258,11 @@ export default function Resources() {
             />
             <div className="text-sm text-muted-foreground mb-1">
               {t("pagination.results", {
-                from: pagination.pageIndex * pagination.pageSize + 1,
-                to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredResources.length),
-                total: filteredResources.length,
+                from: (pagination.pageIndex * pagination.pageSize + 1).toLocaleString(i18n.language),
+                to: Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredResources.length).toLocaleString(
+                  i18n.language,
+                ),
+                total: filteredResources.length.toLocaleString(i18n.language),
               })}
             </div>
             <Table>

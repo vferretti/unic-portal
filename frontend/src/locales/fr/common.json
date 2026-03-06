@@ -135,7 +135,7 @@
     "explore_projects_description": "Parcourez les projets de recherche et d'amélioration de la qualité utilisant la plateforme UnIC.",
     "explore_catalog": "Catalogue de données",
     "explore_catalog_description": "Explorez les dictionnaires de données organisés par type de ressource.",
-    "stats_title": "L'UnIC en chiffres",
+    "stats_title": "L'UnIC en nombres",
     "stats_research_projects": "{{count}} projets de recherche",
     "stats_eqp_projects": "{{count}} projets d'évaluation de la qualité et performance",
     "stats_systems": "{{count}} systèmes hospitaliers",
