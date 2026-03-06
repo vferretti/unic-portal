@@ -465,7 +465,7 @@ function DictTableTable({
   tables?: string[];
   onTableDrillDown: (tableName: string, systemName: string) => void;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [sorting, setSorting] = useState<SortingState>([{ id: "tab_name", desc: false }]);
   const [pagination, setPagination] = useState<PaginationState>({
