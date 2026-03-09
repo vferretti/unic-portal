@@ -831,18 +831,6 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         ),
       },
       {
-        accessorKey: i18n.language === "en" ? "var_label_en" : "var_label_fr",
-        id: "label",
-        size: 250,
-        enableSorting: false,
-        header: () => t("catalog.exploration.columns.label"),
-        cell: ({ getValue }) => {
-          const val = getValue<string | null>();
-          if (!val) return <TextCell>{undefined}</TextCell>;
-          return <HighlightText text={val} highlight={debouncedSearch} />;
-        },
-      },
-      {
         accessorFn: (row) => row.table?.tab_name ?? null,
         id: "tab_name",
         size: 150,
@@ -891,6 +879,18 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
       cell: ({ getValue }) => {
         const type = getValue<string | null>();
         return <BadgeCell variant={type ? (VARIABLE_TYPE_BADGE[type] ?? "secondary") : undefined}>{type}</BadgeCell>;
+      },
+    });
+    cols.push({
+      accessorKey: i18n.language === "en" ? "var_label_en" : "var_label_fr",
+      id: "label",
+      size: 250,
+      enableSorting: false,
+      header: () => t("catalog.exploration.columns.label"),
+      cell: ({ getValue }) => {
+        const val = getValue<string | null>();
+        if (!val) return <TextCell>{undefined}</TextCell>;
+        return <HighlightText text={val} highlight={debouncedSearch} />;
       },
     });
     if (category !== "source_system") {

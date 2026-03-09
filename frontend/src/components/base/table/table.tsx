@@ -65,10 +65,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (
     <td
       data-slot="table-cell"
-      className={cn(
-        "p-2 align-middle [&>div]:overflow-hidden [&>div]:text-ellipsis [&>div]:whitespace-nowrap group-hover:bg-table-accent",
-        className,
-      )}
+      className={cn("p-2 align-middle break-words group-hover:bg-table-accent", className)}
       {...props}
     />
   );
