@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams, Navigate, Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { BookOpen } from "lucide-react";
-import { Checkbox } from "@/components/base/ui/checkbox";
+import { BookOpen, ShoppingCart } from "lucide-react";
+import { Button } from "@/components/base/ui/button";
 import { useCartContext } from "@/contexts/cart-context";
 import {
   type ColumnDef,
@@ -62,52 +62,59 @@ export default function CatalogExploration() {
   const category = type ? ROUTE_TO_CATEGORY[type] : undefined;
   const tabConfig = category ? CATEGORY_TABS[category] : undefined;
 
-  const [activeTab, setActiveTab] = useState(() => {
-    const paramTab = searchParams.get("tab");
-    if (paramTab && tabConfig?.tabs.includes(paramTab)) return paramTab;
-    return tabConfig?.tabs[0] ?? "tables";
-  });
-  const [selectedSystem, setSelectedSystem] = useState<string | null>(() => searchParams.get("resource"));
-  const [selectedTable, setSelectedTable] = useState<string | null>(null);
+  const defaultTab = tabConfig?.tabs[0] ?? "tables";
+  const paramTab = searchParams.get("tab");
+  const activeTab = paramTab && tabConfig?.tabs.includes(paramTab) ? paramTab : defaultTab;
+  const selectedSystem = searchParams.get("resource");
+  const selectedTable = searchParams.get("table");
 
-  const prevCategoryRef = useRef(category);
-  useEffect(() => {
-    if (category === prevCategoryRef.current) return;
-    prevCategoryRef.current = category;
-    if (tabConfig) {
-      const paramResource = searchParams.get("resource");
-      const paramTab = searchParams.get("tab");
-      setSelectedSystem(paramResource); // eslint-disable-line react-hooks/set-state-in-effect
-      setSelectedTable(null);
-      setActiveTab(paramTab && tabConfig.tabs.includes(paramTab) ? paramTab : tabConfig.tabs[0]);
-      if (!paramResource && !paramTab) {
-        setSearchParams({}, { replace: true });
-      }
-    }
-  }, [category]); // eslint-disable-line react-hooks/exhaustive-deps
+  const updateParams = useCallback(
+    (updates: Record<string, string | null>) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          for (const [key, value] of Object.entries(updates)) {
+            if (value === null) {
+              next.delete(key);
+            } else {
+              next.set(key, value);
+            }
+          }
+          return next;
+        },
+        { replace: false },
+      );
+    },
+    [setSearchParams],
+  );
+
+  const setActiveTab = useCallback(
+    (tab: string) => updateParams({ tab: tab === defaultTab ? null : tab, table: null }),
+    [updateParams, defaultTab],
+  );
 
   const systems = useMemo(() => (selectedSystem ? [selectedSystem] : undefined), [selectedSystem]);
   const tables = useMemo(() => (selectedTable ? [selectedTable] : undefined), [selectedTable]);
   const { stats } = useCatalogStats(systems, tables);
   const typeStat = category ? stats[category] : undefined;
 
-  const handleDrillDown = useCallback((systemName: string, tab: "tables" | "variables") => {
-    setSelectedSystem(systemName);
-    setSelectedTable(null);
-    setActiveTab(tab);
-  }, []);
+  const handleDrillDown = useCallback(
+    (systemName: string, tab: "tables" | "variables") => {
+      updateParams({ resource: systemName, table: null, tab: tab === defaultTab ? null : tab });
+    },
+    [updateParams, defaultTab],
+  );
 
-  const handleTableDrillDown = useCallback((tableName: string, systemName: string) => {
-    setSelectedSystem(systemName);
-    setSelectedTable(tableName);
-    setActiveTab("variables");
-  }, []);
+  const handleTableDrillDown = useCallback(
+    (tableName: string, systemName: string) => {
+      updateParams({ resource: systemName, table: tableName, tab: "variables" });
+    },
+    [updateParams],
+  );
 
   const handleClearFilter = useCallback(() => {
-    setSelectedSystem(null);
-    setSelectedTable(null);
-    if (tabConfig) setActiveTab(tabConfig.tabs[0]);
-  }, [tabConfig]);
+    updateParams({ resource: null, table: null, tab: null });
+  }, [updateParams]);
 
   if (!category) {
     return <Navigate to="/catalog" replace />;
@@ -139,7 +146,7 @@ export default function CatalogExploration() {
                     <span className="text-muted-foreground mx-2">/</span>
                     {selectedTable ? (
                       <button
-                        onClick={() => setSelectedTable(null)}
+                        onClick={() => updateParams({ table: null })}
                         className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                       >
                         {selectedSystem}
@@ -749,35 +756,42 @@ function DictVariableTable({ category, systems, tables }: { category: string; sy
         header: () => {
           const pageVarIds = data.map((v) => v.var_id);
           const allPageSelected = pageVarIds.length > 0 && pageVarIds.every((id) => selectedVarIds.has(id));
-          const somePageSelected = !allPageSelected && pageVarIds.some((id) => selectedVarIds.has(id));
           return (
-            <Checkbox
-              checked={allPageSelected || (somePageSelected && "indeterminate")}
-              onCheckedChange={(checked) => {
-                if (checked) {
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              className={allPageSelected ? "text-primary" : "text-muted-foreground"}
+              onClick={() => {
+                if (allPageSelected) {
+                  removeVariables(pageVarIds);
+                } else {
                   const toAdd = data.filter((v) => !selectedVarIds.has(v.var_id));
                   if (toAdd.length > 0) addVariables(toAdd);
-                } else {
-                  removeVariables(pageVarIds);
                 }
               }}
-            />
+            >
+              <ShoppingCart className={cn("size-4", allPageSelected && "fill-current")} />
+            </Button>
           );
         },
         cell: ({ row }) => {
           const varId = row.original.var_id;
           const isSelected = selectedVarIds.has(varId);
           return (
-            <Checkbox
-              checked={isSelected}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  addVariables([row.original]);
-                } else {
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              className={isSelected ? "text-primary" : "text-muted-foreground"}
+              onClick={() => {
+                if (isSelected) {
                   removeVariables([varId]);
+                } else {
+                  addVariables([row.original]);
                 }
               }}
-            />
+            >
+              <ShoppingCart className={cn("size-4", isSelected && "fill-current")} />
+            </Button>
           );
         },
       },
