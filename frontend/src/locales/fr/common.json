@@ -63,10 +63,6 @@
       "search_systems": "Nom, Description",
       "search_tables": "Nom, Système, Domaine",
       "search_variables": "Nom, Libellé",
-      "filters": {
-        "filtered_by": "Filtré par :",
-        "clear": "Effacer"
-      },
       "columns": {
         "name": "Nom",
         "description": "Description",
@@ -92,28 +88,45 @@
     "categories": {
       "source_system": {
         "title": "Systèmes hospitaliers",
+        "title_singular": "Système hospitalier",
+        "title_of_plural": "des systèmes hospitaliers",
+        "title_of_singular": "du système hospitalier",
         "header_title": "Catalogue de données des systèmes hospitaliers",
         "description": "L'UnIC recense et documente les données disponibles des systèmes d'information hospitaliers. Ces systèmes comportent des données médicales, administratives et logistiques.",
         "short_description": "Liste des tables et des variables des systèmes hospitaliers disponibles dans l'UnIC."
       },
       "warehouse": {
         "title": "Entrepôt de données",
+        "title_singular": "Entrepôt de données",
+        "title_of_plural": "de l'entrepôt",
+        "title_of_singular": "de l'entrepôt",
         "header_title": "Catalogue de données de l'entrepôt",
         "description": "L'entrepôt de données de l'UnIC est une base de données structurée composée d'un ensemble sélectionné de variables provenant des systèmes hospitaliers. Ces variables sont organisées par domaine et documentées selon une nomenclature standard.",
         "short_description": "Liste des tables et des variables de l'entrepôt de données de l'UnIC."
       },
       "research_project": {
         "title": "Projets de recherche",
+        "title_singular": "Projet de recherche",
+        "title_of_plural": "des projets de recherche",
+        "title_of_singular": "du projet de recherche",
         "header_title": "Catalogue de données des projets de recherche",
         "description": "Les dictionnaires de données détaillant les caractéristiques des variables des jeux de données sont produits par l'UnIC pour des projets de recherche menés au CHUSJ.",
         "short_description": "Liste détaillée des variables et des tables des jeux de données produits par l'UnIC pour la recherche au CHUSJ."
       },
       "eqp": {
         "title": "Projets EQP",
+        "title_singular": "Projet EQP",
+        "title_of_plural": "des projets EQP",
+        "title_of_singular": "du projet EQP",
         "header_title": "Catalogue de données des projets EQP",
         "description": "Les dictionnaires de données détaillant les caractéristiques des variables des jeux de données sont produits par l'UnIC pour des projets d'évaluation de la qualité et de la performance.",
         "short_description": "Liste détaillée des variables et des tables des jeux de données produits par l'UnIC pour des projets d'évaluation de la qualité et de la performance."
       }
+    },
+    "tab_titles": {
+      "tables_prefix": "Tables",
+      "variables_prefix": "Variables",
+      "variables_of_table": "Variables de la table"
     }
   },
   "landing": {

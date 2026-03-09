@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useSearchParams, Navigate, Link } from "react-router";
+import { useParams, useSearchParams, useNavigate, Navigate, Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { BookOpen, ShoppingCart } from "lucide-react";
+import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/base/ui/button";
 import { useCartContext } from "@/contexts/cart-context";
 import {
@@ -57,6 +57,7 @@ const CATEGORY_TABS: Record<string, { tabs: string[]; resourceLabel: string; res
 export default function CatalogExploration() {
   const { type } = useParams<{ type: string }>();
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const category = type ? ROUTE_TO_CATEGORY[type] : undefined;
@@ -69,27 +70,30 @@ export default function CatalogExploration() {
   const selectedTable = searchParams.get("table");
 
   const updateParams = useCallback(
-    (updates: Record<string, string | null>) => {
-      setSearchParams(
-        (prev) => {
-          const next = new URLSearchParams(prev);
-          for (const [key, value] of Object.entries(updates)) {
-            if (value === null) {
-              next.delete(key);
-            } else {
-              next.set(key, value);
-            }
+    (updates: Record<string, string | null>, replace = false) => {
+      const next = new URLSearchParams(searchParams);
+      let changed = false;
+      for (const [key, value] of Object.entries(updates)) {
+        const current = next.get(key);
+        if (value === null) {
+          if (current !== null) {
+            next.delete(key);
+            changed = true;
           }
-          return next;
-        },
-        { replace: false },
-      );
+        } else if (current !== value) {
+          next.set(key, value);
+          changed = true;
+        }
+      }
+      if (changed) {
+        setSearchParams(next, { replace });
+      }
     },
-    [setSearchParams],
+    [searchParams, setSearchParams],
   );
 
   const setActiveTab = useCallback(
-    (tab: string) => updateParams({ tab: tab === defaultTab ? null : tab, table: null }),
+    (tab: string) => updateParams({ tab: tab === defaultTab ? null : tab }, true),
     [updateParams, defaultTab],
   );
 
@@ -112,9 +116,55 @@ export default function CatalogExploration() {
     [updateParams],
   );
 
-  const handleClearFilter = useCallback(() => {
-    updateParams({ resource: null, table: null, tab: null });
-  }, [updateParams]);
+  const tabTitle = useMemo(() => {
+    if (!category) return null;
+    const typePlural = t(`catalog.categories.${category}.title`);
+    const typeSingular = t(`catalog.categories.${category}.title_singular`);
+    const ofPlural = t(`catalog.categories.${category}.title_of_plural`);
+    const ofSingular = t(`catalog.categories.${category}.title_of_singular`);
+    const name = <i>{selectedTable ?? selectedSystem}</i>;
+
+    if (activeTab === "resources") {
+      if (selectedSystem)
+        return (
+          <>
+            {typeSingular} {name}
+          </>
+        );
+      return <>{typePlural}</>;
+    }
+    if (activeTab === "tables") {
+      if (selectedSystem)
+        return (
+          <>
+            {t("catalog.tab_titles.tables_prefix")} {ofSingular} {name}
+          </>
+        );
+      return (
+        <>
+          {t("catalog.tab_titles.tables_prefix")} {ofPlural}
+        </>
+      );
+    }
+    // variables
+    if (selectedTable)
+      return (
+        <>
+          {t("catalog.tab_titles.variables_of_table")} {name}
+        </>
+      );
+    if (selectedSystem)
+      return (
+        <>
+          {t("catalog.tab_titles.variables_prefix")} {ofSingular} {name}
+        </>
+      );
+    return (
+      <>
+        {t("catalog.tab_titles.variables_prefix")} {ofPlural}
+      </>
+    );
+  }, [category, activeTab, selectedSystem, selectedTable, t]);
 
   if (!category) {
     return <Navigate to="/catalog" replace />;
@@ -128,59 +178,24 @@ export default function CatalogExploration() {
       />
       <div className="p-8">
         <div className="rounded-lg border bg-background p-6">
-          <nav className="flex items-center text-sm mb-4">
-            <Link to="/catalog" className="text-muted-foreground hover:text-foreground transition-colors">
-              <BookOpen className="size-4" />
-            </Link>
-            <span className="text-muted-foreground mx-2">/</span>
-            {selectedSystem ? (
-              <>
-                <button
-                  onClick={handleClearFilter}
-                  className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                >
-                  {t(`catalog.categories.${category}.title`)}
-                </button>
-                {category !== "warehouse" && (
-                  <>
-                    <span className="text-muted-foreground mx-2">/</span>
-                    {selectedTable ? (
-                      <button
-                        onClick={() => updateParams({ table: null })}
-                        className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                      >
-                        {selectedSystem}
-                      </button>
-                    ) : (
-                      <span className="font-medium">{selectedSystem}</span>
-                    )}
-                  </>
-                )}
-                {selectedTable && (
-                  <>
-                    <span className="text-muted-foreground mx-2">/</span>
-                    <span className="font-medium">{selectedTable}</span>
-                  </>
-                )}
-              </>
-            ) : (
-              <span className="font-medium">{t(`catalog.categories.${category}.title`)}</span>
-            )}
-            {(selectedSystem || selectedTable) && (
-              <div className="ml-auto flex items-center gap-2">
-                <span className="text-muted-foreground">
-                  <span className="font-bold">{t("catalog.exploration.filters.filtered_by")}</span>{" "}
-                  {selectedTable ?? selectedSystem}
-                </span>
-                <button
-                  onClick={handleClearFilter}
-                  className="text-primary underline hover:no-underline cursor-pointer"
-                >
-                  {t("catalog.exploration.filters.clear")}
-                </button>
-              </div>
-            )}
-          </nav>
+          {/* Dynamic title above tabs */}
+          <div className="flex items-center gap-2 mb-4">
+            <button
+              onClick={() => {
+                if (selectedTable) {
+                  updateParams({ table: null });
+                } else if (selectedSystem) {
+                  updateParams({ resource: null, tab: null });
+                } else {
+                  navigate("/catalog");
+                }
+              }}
+              className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            >
+              <ArrowLeft className="size-5" />
+            </button>
+            <h2 className="text-lg font-semibold">{tabTitle}</h2>
+          </div>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <div className="border-b mb-4">
               <TabsList variant="line" className="pb-0 gap-4">

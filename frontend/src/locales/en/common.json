@@ -63,10 +63,6 @@
       "search_systems": "Name, Description",
       "search_tables": "Name, System, Domain",
       "search_variables": "Name, Label",
-      "filters": {
-        "filtered_by": "Filtered by:",
-        "clear": "Clear"
-      },
       "columns": {
         "name": "Name",
         "description": "Description",
@@ -92,28 +88,45 @@
     "categories": {
       "source_system": {
         "title": "Hospital Systems",
+        "title_singular": "Hospital System",
+        "title_of_plural": "from Hospital Systems",
+        "title_of_singular": "from Hospital System",
         "header_title": "Hospital Systems Data Catalog",
         "description": "UnIC collects and documents available data from hospital information systems. These systems include medical, administrative, and logistical data.",
         "short_description": "List of tables and variables from hospital systems available in UnIC."
       },
       "warehouse": {
         "title": "Data Warehouse",
+        "title_singular": "Data Warehouse",
+        "title_of_plural": "from the Warehouse",
+        "title_of_singular": "from the Warehouse",
         "header_title": "Warehouse Data Catalog",
         "description": "The UnIC Data Warehouse is structure database of a curated set of variables from hospital systems. These variables are organized by domain and documented according to a standard nomenclature.",
         "short_description": "List of tables and variables from the UnIC Data Warehouse."
       },
       "research_project": {
         "title": "Research Projects",
+        "title_singular": "Research Project",
+        "title_of_plural": "from Research Projects",
+        "title_of_singular": "from Research Project",
         "header_title": "Research Projects Data Catalog",
         "description": "The data dictionaries detailing the characteristics of the dataset variables are produced by UnIC for research projects conducted at the CHUSJ.",
         "short_description": "Detailed list of variables and tables from datasets produced by UnIC for research at CHUSJ."
       },
       "eqp": {
         "title": "EQP Projects",
+        "title_singular": "EQP Project",
+        "title_of_plural": "from EQP Projects",
+        "title_of_singular": "from EQP Project",
         "header_title": "EQP Projects Data Catalog",
         "description": "The data dictionaries detailing the characteristics of the dataset variables are produced by UnIC for quality improvement projects.",
         "short_description": "Detailed list of variables and tables from datasets produced by UnIC for quality and performance evaluation projects."
       }
+    },
+    "tab_titles": {
+      "tables_prefix": "Tables",
+      "variables_prefix": "Variables",
+      "variables_of_table": "Variables from table"
     }
   },
   "landing": {
