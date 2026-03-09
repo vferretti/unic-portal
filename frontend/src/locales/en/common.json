@@ -160,7 +160,7 @@
     "stats_label_tables": "variable tables",
     "stats_label_variables": "variables",
     "green_zone_title": "Access Your Datasets",
-    "green_zone_description": "Connect to your workspace to download your datasets or analyze them with our online tool suite.",
+    "green_zone_description": "Connect to your workspace to download your datasets or analyze them with our online tool suite. Access to the CHUSJ network is required",
     "green_zone_connect": "Connect"
   },
   "cart": {
