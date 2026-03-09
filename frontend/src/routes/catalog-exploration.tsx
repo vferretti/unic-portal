@@ -183,7 +183,7 @@ export default function CatalogExploration() {
             <button
               onClick={() => {
                 if (selectedTable) {
-                  updateParams({ table: null });
+                  updateParams({ table: null, tab: "tables" });
                 } else if (selectedSystem) {
                   updateParams({ resource: null, tab: null });
                 } else {
