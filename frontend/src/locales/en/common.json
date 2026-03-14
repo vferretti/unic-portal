@@ -79,11 +79,11 @@
       }
     },
     "stats": {
-      "projects": "{{count}} projects",
-      "tables": "{{count}} tables",
-      "variables": "{{count}} variables",
-      "systems": "{{count}} systems",
-      "domains": "{{count}} domains"
+      "projects": "{{formattedCount}} projects",
+      "tables": "{{formattedCount}} tables",
+      "variables": "{{formattedCount}} variables",
+      "systems": "{{formattedCount}} systems",
+      "domains": "{{formattedCount}} domains"
     },
     "categories": {
       "source_system": {

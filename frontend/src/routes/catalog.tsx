@@ -75,10 +75,16 @@ export default function Catalog() {
                   <CardFooter className="justify-between items-center">
                     <div className="flex flex-wrap gap-2">
                       <Badge variant={colors.badge}>
-                        {t(`catalog.stats.${label1}`, { count: count1.toLocaleString(i18n.language) })}
+                        {t(`catalog.stats.${label1}`, {
+                          count: count1,
+                          formattedCount: count1.toLocaleString(i18n.language),
+                        })}
                       </Badge>
                       <Badge variant={colors.badge}>
-                        {t(`catalog.stats.${label2}`, { count: count2.toLocaleString(i18n.language) })}
+                        {t(`catalog.stats.${label2}`, {
+                          count: count2,
+                          formattedCount: count2.toLocaleString(i18n.language),
+                        })}
                       </Badge>
                     </div>
                     <Button variant="default" size="sm" className={colors.button} asChild>

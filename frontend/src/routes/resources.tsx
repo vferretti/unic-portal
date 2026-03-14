@@ -238,10 +238,7 @@ export default function Resources() {
 
   return (
     <>
-      <PageHeader
-        title={t("resources.title")}
-        description={t("resources.description", { count: filteredResources.length.toLocaleString(i18n.language) })}
-      />
+      <PageHeader title={t("resources.title")} description={t("resources.description")} />
       <div className="p-8">
         {isLoading && <p className="text-muted-foreground">{t("common.loading")}</p>}
         {error && <p className="text-destructive">{t("common.error", { message: error })}</p>}
