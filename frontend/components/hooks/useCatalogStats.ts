@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import api from "@/lib/api";
+import api from "@/utils/api";
 
 /** Aggregate counts for a single resource type. */
 export interface CatalogTypeStat {

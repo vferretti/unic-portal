@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import api from "@/lib/api";
+import api from "@/utils/api";
 import type { Resource } from "@/types/resource";
 import type { PaginatedResponse } from "@/types/paginated";
 

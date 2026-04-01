@@ -1,17 +1,17 @@
 import useSWR from "swr";
-import api from "@/lib/api";
-import type { DictVariable } from "@/types/dict-variable";
+import api from "@/utils/api";
+import type { DictTable } from "@/types/dict-table";
 import type { PaginatedResponse } from "@/types/paginated";
 
-const fetcher = (url: string) => api.get<PaginatedResponse<DictVariable>>(url).then((res) => res.data);
+const fetcher = (url: string) => api.get<PaginatedResponse<DictTable>>(url).then((res) => res.data);
 
 /**
- * Fetches paginated dictionary variables filtered by resource type.
+ * Fetches paginated dictionary tables filtered by resource type.
  * @param type - Resource type to filter by.
  * @param params - Pagination, sorting, and filter parameters.
  * @returns `{ data, total, isLoading, error }`
  */
-export function useVariablesByType(
+export function useTablesByType(
   type: string,
   params: {
     pageIndex: number;
@@ -23,7 +23,7 @@ export function useVariablesByType(
     search?: string;
   },
 ) {
-  let url = `/catalog/variables?type=${type}&page_index=${params.pageIndex}&page_size=${params.pageSize}&sort_field=${params.sortField}&sort_order=${params.sortOrder}`;
+  let url = `/catalog/tables?type=${type}&page_index=${params.pageIndex}&page_size=${params.pageSize}&sort_field=${params.sortField}&sort_order=${params.sortOrder}`;
   if (params.systems?.length) {
     url += params.systems.map((s) => `&system=${encodeURIComponent(s)}`).join("");
   }

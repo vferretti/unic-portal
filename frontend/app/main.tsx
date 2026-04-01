@@ -2,17 +2,17 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { ThemeProvider } from "next-themes";
-import { TooltipProvider } from "./components/base/ui/tooltip";
-import "./index.css";
-import "./lib/i18n";
-import Root from "./routes/root";
+import { TooltipProvider } from "@/components/base/ui/tooltip";
+import "./app.css";
+import "@/lib/i18n";
+import Root from "./root";
 import Resources from "./routes/resources";
 import Catalog from "./routes/catalog";
 import CatalogExploration from "./routes/catalog-exploration";
 import Cart from "./routes/cart";
 import Home from "./routes/home";
-import { LandingPage } from "./components/feature/landing-page";
-import { CartProvider } from "./contexts/cart-context";
+import { LandingPage } from "@/components/feature/landing-page";
+import { CartProvider } from "@/contexts/cart-context";
 
 const router = createBrowserRouter([
   {
